@@ -1,0 +1,39 @@
+/* 
+Galactic Fighter Engine v1.0
+Last Updated: 2017-May-20
+Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
+*/
+body
+{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+#game
+{
+	display: block;
+	height: 600px;
+	margin: 0 auto 0 auto;
+    padding: 0;
+    position: relative;
+	width: 600px;
+}
+#background
+{
+	background-image: url("../assets/img_background-grid.jpg");
+	height: 3000px;
+	position: absolute;
+	width: 3000px;
+	z-index: 1;
+}
+#engine-wrapper
+{
+	background-image: url("../assets/img_background-grid.jpg");
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+}
