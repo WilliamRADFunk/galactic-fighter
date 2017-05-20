@@ -125,16 +125,18 @@ Engine.update = function(timestamp)
 		{
 			movePlayer();
 		}
+		// Move the stars a their speeds.
 		for(var i = 0; i < stars.length; i++)
 		{
 			moveProjectiles(stars[i]);
 			if(stars[i].position.x <= -5) {
 				stars[i].move(
 					Engine.canvas.width + 50, 
-					Math.floor(Math.random() * (Engine.canvas.height - 0)) + 0
+					Math.floor(Math.random() * Engine.canvas.height)
 				);
 			}
 		}
+		// Move, and remove player projectiles as they leave the screen.
 		for(var i = 0, j = 0; i < playerProjectiles.length - j; i++)
 		{
 			moveProjectiles(playerProjectiles[i]);
@@ -143,6 +145,24 @@ Engine.update = function(timestamp)
 				j++;
 			}
 		}
+		// Move, remove, and create player engine exhaust particles.
+		for(var i = 0; i < engineParticles.length; i++)
+		{
+			moveProjectiles(engineParticles[i]);
+			if(engineParticles[i].colorA > 0)
+			{
+				engineParticles[i].fade(Math.random() * (0.08 - 0.01) + 0.01);
+			}
+			
+			if(engineParticles[i].colorA <= 0) {
+				engineParticles[i].move(
+					player.position.x,
+					player.position.y + (playerSize / 2) - (7 * Math.random())
+				);
+				engineParticles[i].fade(-1);
+			}
+		}
+		
 		scene.render();
 		start = null;
 		// console.log('Number of projectiles: ', playerProjectiles.length);
