@@ -5,6 +5,7 @@ Author: William R.A.D. Funk - http://WilliamRobertFunk.com
 */
 body
 {
+    background-image: url("../assets/img_background-grid.jpg");
     height: 100%;
     margin: 0;
     padding: 0;
@@ -19,22 +20,22 @@ body
     position: relative;
 	width: 600px;
 }
-#background
+#player-ship
 {
     /*
-    * Image By Following Stars:
-    * http://followingstars.deviantart.com/art/Simple-starry-background-193403007
+    * Image By valeatory:
+    * https://openclipart.org/detail/193617/rocket
     */
-	background-image: url("../assets/img_background-grid.jpg");
-	height: 3000px;
-	position: absolute;
-	width: 3000px;
-	z-index: 1;
+	height: 188px;
+    position: absolute;
+    left: -1000px;
+	width: 252px;
+    z-index: 3;
 }
 #engine-wrapper
 {
     /*
-    * Image By Following Stars:
+    * Image By FollowingStars:
     * http://followingstars.deviantart.com/art/Simple-starry-background-193403007
     */
 	background-image: url("../assets/img_background-grid.jpg");

@@ -9,17 +9,12 @@ var start = null;
 var context;
 var centerX;
 var centerY;
-var currentWeapon = {
-	color: [255,0,255,0.8],
-	strokeColor: [255,0,255,0.8],
-	size: 2,
-};
 var mouseX = centerX;
 var mouseY = centerY;
 var mouseState = 0;
 var scene;
 var player;
-var playerSize = 5;
+var playerSize = 50;
 var playerProjectiles = [];
 var enemyProjectiles = [];
 var spaceDebris = [];
@@ -35,7 +30,7 @@ function init()
 	context = Engine.canvas.getContext('2d');
 	
 	// Create the player
-	player = new Engine.Orb(centerX, centerY, 3.5, playerSize, [0,255,0,1], [0,255,100,1]);
+	player = new Engine.Spaceship(centerX - 150, centerY, 0);
 	scene = new Engine.Scene();
 	scene.add(player);
 	
@@ -54,10 +49,11 @@ function fireWeapon(e)
 {
 	if(e.keyCode === 32)
 	{
+		var currentWeapon = player.getCurrentWeapon();
 		var emote = new Engine.Orb(
-			player.position.x,
-			player.position.y,
-			3.5,
+			player.position.x + 51,
+			player.position.y + 25,
+			currentWeapon.speed,
 			currentWeapon.size,
 			currentWeapon.color,
 			currentWeapon.strokeColor

@@ -6,6 +6,50 @@ Author: William R.A.D. Funk - http://WilliamRobertFunk.com
 
 // Engine object
 var Engine = { };
+// Engine's Spaceship object.
+Engine.Spaceship = function(x, y, config)
+{
+	configurations = [
+		{
+			getShip: function() {
+				return document.getElementById('player-ship');
+			},
+			getSpeed: function() {
+				return 4;
+			},
+		},
+	];
+	return {
+		position: {
+			x: x,
+			y: y
+		},
+		speed: configurations[config].getSpeed(),
+		fade: function(rate)
+		{
+			this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
+			this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
+		},
+		getCurrentWeapon: function() {
+			return {
+				color: [255,0,255,0.8],
+				size: 2,
+				speed: 5,
+				strokeColor: [255,0,255,0.8],
+			};
+		},
+		move: function(currX, currY)
+		{
+			this.position.x = currX;
+			this.position.y = currY;
+		},
+		render: function()
+		{
+			var shipImg = configurations[config].getShip();
+			context.drawImage(shipImg, this.position.x, this.position.y, playerSize, playerSize);	
+		}
+	};
+};
 // Engine's Node object.
 Engine.Orb = function(x, y, rate, rad, c, strokeC)
 {
