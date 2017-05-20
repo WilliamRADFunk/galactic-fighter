@@ -9,14 +9,20 @@ var start = null;
 var context;
 var centerX;
 var centerY;
+var currentWeapon = {
+	color: [255,0,255,0.8],
+	strokeColor: [255,0,255,0.8],
+	size: 2,
+};
 var mouseX = centerX;
 var mouseY = centerY;
 var mouseState = 0;
 var scene;
 var player;
 var playerSize = 5;
-var playerSpeed = 3.5;
-var extraneous = [];
+var playerProjectiles = [];
+var enemyProjectiles = [];
+var spaceDebris = [];
 
 // Canvas setup and Engine instigation.
 function init()
@@ -29,12 +35,12 @@ function init()
 	context = Engine.canvas.getContext('2d');
 	
 	// Create the player
-	player = new Engine.Orb(centerX, centerY, playerSize, [0,255,0,1], [0,255,100,1]);
+	player = new Engine.Orb(centerX, centerY, 3.5, playerSize, [0,255,0,1], [0,255,100,1]);
 	scene = new Engine.Scene();
 	scene.add(player);
 	
 	// Create the keyboard event listener
-	document.addEventListener("keypress", performEmote, false);
+	document.addEventListener("keypress", fireWeapon, false);
 	document.addEventListener("mousedown", mouseDown, false);
 	document.addEventListener("mouseup", mouseUp, false);
 	document.addEventListener("mousemove", mouseMove, false);
@@ -44,12 +50,19 @@ function init()
 	//setInterval(Engine.run, (1000/FPS)); //Change FPS at top to alter speed. Lower is slower.
 }
 // Receive emote command and perform its effect.
-function performEmote(e)
+function fireWeapon(e)
 {
 	if(e.keyCode === 32)
 	{
-		var emote = new Engine.Orb(player.position.x, player.position.y, 20, [255,0,255,0.5], [255,0,255,0.5]);
-		extraneous.push(emote);
+		var emote = new Engine.Orb(
+			player.position.x,
+			player.position.y,
+			3.5,
+			currentWeapon.size,
+			currentWeapon.color,
+			currentWeapon.strokeColor
+		);
+		playerProjectiles.push(emote);
 		scene.add(emote);
 	}
 }
@@ -99,11 +112,18 @@ function movePlayer()
 	var directionX = ((xDiff != 0) ? (xDiff / distance) : 0);
 	var directionY = ((yDiff != 0) ? (yDiff / distance) : 0);
 
-	var modifierX = (directionX < 0) ? Math.floor(directionX * playerSpeed) : Math.ceil(directionX * playerSpeed);
-	var modifierY = (directionY < 0) ? Math.floor(directionY * playerSpeed) : Math.ceil(directionY * playerSpeed);
+	var modifierX = (directionX < 0) ? Math.floor(directionX * player.speed) : Math.ceil(directionX * player.speed);
+	var modifierY = (directionY < 0) ? Math.floor(directionY * player.speed) : Math.ceil(directionY * player.speed);
 
 	var newPlayerX = oldPlayerX + modifierX;
 	var newPlayerY = oldPlayerY + modifierY;
 
 	player.move(newPlayerX, newPlayerY);
+}
+// Moves debris and projectiles along their linear paths.
+function moveProjectiles(obj) {
+	var newObjX = obj.position.x + obj.speed;
+	var newObjY = obj.position.y;
+
+	obj.move(newObjX, newObjY);
 }

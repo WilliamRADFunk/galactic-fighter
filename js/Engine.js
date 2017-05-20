@@ -7,13 +7,14 @@ Author: William R.A.D. Funk - http://WilliamRobertFunk.com
 // Engine object
 var Engine = { };
 // Engine's Node object.
-Engine.Orb = function(x, y, rad, c, strokeC)
+Engine.Orb = function(x, y, rate, rad, c, strokeC)
 {
 	return {
 		position: {
 			x: x,
 			y: y
 		},
+		speed: rate,
 		colorR: c[0],
 		colorG: c[1],
 		colorB: c[2],
@@ -80,15 +81,16 @@ Engine.update = function(timestamp)
 		{
 			movePlayer();
 		}
-		for(var i = 0, j = 0; i < extraneous.length - j; i++)
+		for(var i = 0, j = 0; i < playerProjectiles.length - j; i++)
 		{
-			if(extraneous[i].colorA <= 0)
-			{
-				extraneous.splice(i, 1);
-				j++;
-				continue;
-			}
-			extraneous[i].fade(0.001);
+			// if(playerProjectiles[i].colorA <= 0)
+			// {
+			// 	playerProjectiles.splice(i, 1);
+			// 	j++;
+			// 	continue;
+			// }
+			// playerProjectiles[i].fade(0.001);
+			moveProjectiles(playerProjectiles[i]);
 		}
 		scene.render();
 		start = null;

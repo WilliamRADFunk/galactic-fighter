@@ -21,6 +21,10 @@ body
 }
 #background
 {
+    /*
+    * Image By Following Stars:
+    * http://followingstars.deviantart.com/art/Simple-starry-background-193403007
+    */
 	background-image: url("../assets/img_background-grid.jpg");
 	height: 3000px;
 	position: absolute;
@@ -29,6 +33,10 @@ body
 }
 #engine-wrapper
 {
+    /*
+    * Image By Following Stars:
+    * http://followingstars.deviantart.com/art/Simple-starry-background-193403007
+    */
 	background-image: url("../assets/img_background-grid.jpg");
     height: 100%;
     margin: 0;
