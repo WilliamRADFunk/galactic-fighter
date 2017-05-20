@@ -83,17 +83,15 @@ Engine.update = function(timestamp)
 		}
 		for(var i = 0, j = 0; i < playerProjectiles.length - j; i++)
 		{
-			// if(playerProjectiles[i].colorA <= 0)
-			// {
-			// 	playerProjectiles.splice(i, 1);
-			// 	j++;
-			// 	continue;
-			// }
-			// playerProjectiles[i].fade(0.001);
 			moveProjectiles(playerProjectiles[i]);
+			if(playerProjectiles[i].position.x >= Engine.canvas.width + 5) {
+				playerProjectiles.splice(i, 1);
+				j++;
+			}
 		}
 		scene.render();
 		start = null;
+		// console.log('Number of projectiles: ', playerProjectiles.length);
 	}
 	window.requestAnimationFrame(Engine.update);
 };
