@@ -125,6 +125,16 @@ Engine.update = function(timestamp)
 		{
 			movePlayer();
 		}
+		for(var i = 0; i < stars.length; i++)
+		{
+			moveProjectiles(stars[i]);
+			if(stars[i].position.x <= -5) {
+				stars[i].move(
+					Engine.canvas.width + 50, 
+					Math.floor(Math.random() * (Engine.canvas.height - 0)) + 0
+				);
+			}
+		}
 		for(var i = 0, j = 0; i < playerProjectiles.length - j; i++)
 		{
 			moveProjectiles(playerProjectiles[i]);

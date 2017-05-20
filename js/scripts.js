@@ -18,6 +18,7 @@ var playerSize = 50;
 var playerProjectiles = [];
 var enemyProjectiles = [];
 var spaceDebris = [];
+var stars = [];
 
 // Canvas setup and Engine instigation.
 function init()
@@ -33,6 +34,20 @@ function init()
 	player = new Engine.Spaceship(centerX - 150, centerY, 0);
 	scene = new Engine.Scene();
 	scene.add(player);
+
+	// Create the star that will give the illusion of movement.
+	for(var i = 0; i < 20; i++) {
+		var star = new Engine.Orb(
+			Math.floor(Math.random() * Engine.canvas.height) + 50,
+			Math.floor(Math.random() * Engine.canvas.height),
+			-(Math.floor(Math.random() * 5) + 2),
+			1,
+			[255,255,255,0.3],
+			[255,255,255,0.3]
+		);
+		stars.push(star);
+		scene.add(star);
+	}
 	
 	// Create the keyboard event listener
 	document.addEventListener("keypress", fireWeapon, false);
@@ -120,6 +135,6 @@ function movePlayer()
 function moveProjectiles(obj) {
 	var newObjX = obj.position.x + obj.speed;
 	var newObjY = obj.position.y;
-
+	
 	obj.move(newObjX, newObjY);
 }
