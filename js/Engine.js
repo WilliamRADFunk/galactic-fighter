@@ -6,10 +6,55 @@ Author: William R.A.D. Funk - http://WilliamRobertFunk.com
 
 // Engine object
 var Engine = { };
+// Engine's Asteroid object.
+Engine.Asteroid = function(x, y, config)
+{
+	var configurations = [
+		{
+			getAsteroid: function() {
+				return document.getElementById('asteroid');
+			},
+			getSize: function() {
+				return 30;
+			},
+			getSpeed: function() {
+				return -2;
+			},
+		},
+	];
+	return {
+		position: {
+			x: x,
+			y: y
+		},
+		speed: configurations[config].getSpeed(),
+		fade: function(rate)
+		{
+			this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
+			this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
+		},
+		move: function(currX, currY)
+		{
+			this.position.x = currX;
+			this.position.y = currY;
+		},
+		render: function()
+		{
+			var asteroidImg = configurations[config].getAsteroid();
+			context.drawImage(
+				asteroidImg,
+				this.position.x,
+				this.position.y,
+				configurations[config].getSize(),
+				configurations[config].getSize()
+			);	
+		}
+	};
+};
 // Engine's Spaceship object.
 Engine.Spaceship = function(x, y, config)
 {
-	configurations = [
+	var configurations = [
 		{
 			getShip: function() {
 				return document.getElementById('player-ship');
@@ -141,6 +186,7 @@ Engine.update = function(timestamp)
 		{
 			moveProjectiles(playerProjectiles[i]);
 			if(playerProjectiles[i].position.x >= Engine.canvas.width + 5) {
+				scene.remove(playerProjectiles[i]);
 				playerProjectiles.splice(i, 1);
 				j++;
 			}
@@ -161,6 +207,25 @@ Engine.update = function(timestamp)
 				);
 				engineParticles[i].fade(-1);
 			}
+		}
+		// Move, remove, and create (at random) asteroids as they leave the screen.
+		for(var i = 0, j = 0; i < spaceDebris.length - j; i++)
+		{
+			moveProjectiles(spaceDebris[i]);
+			if(spaceDebris[i].position.x < -50) {
+				scene.remove(spaceDebris[i]);
+				spaceDebris.splice(i, 1);
+				j++;
+			}
+		}
+		if(spaceDebris.length < asteroidDensity && Math.random() > 0.98) {
+			var asteroid = new Engine.Asteroid(
+				Engine.canvas.width + 50,
+				Math.floor(Math.random() * Engine.canvas.height),
+				0
+			);
+			spaceDebris.push(asteroid);
+			scene.add(asteroid);
 		}
 		
 		scene.render();

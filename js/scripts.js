@@ -12,6 +12,8 @@ var centerY;
 var mouseX = centerX;
 var mouseY = centerY;
 var mouseState = 0;
+var asteroidDensity = 10;
+var asteroidSpeed = 2;
 var scene;
 var player;
 var playerSize = 50;

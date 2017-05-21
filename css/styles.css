@@ -11,6 +11,18 @@ body
     padding: 0;
     width: 100%;
 }
+#asteroid
+{
+    /*
+    * Image By glitch:
+    * https://openclipart.org/detail/209758/harvestable-resources-rock
+    */
+    height: 271px;
+    position: absolute;
+    left: -1000px;
+    width: 300px;
+    z-index: 3;
+}
 #game
 {
 	display: block;
