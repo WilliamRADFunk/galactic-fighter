@@ -11,13 +11,16 @@ Engine.Asteroid = function(x, y, config)
 {
 	var configurations = [
 		{
-			getAsteroid: function() {
+			getAsteroid: function()
+			{
 				return document.getElementById('asteroid');
 			},
-			getSize: function() {
+			getSize: function()
+			{
 				return 30;
 			},
-			getSpeed: function() {
+			getSpeed: function()
+			{
 				return -2;
 			},
 		},
@@ -27,6 +30,7 @@ Engine.Asteroid = function(x, y, config)
 			x: x,
 			y: y
 		},
+		size: configurations[config].getSize(),
 		speed: configurations[config].getSpeed(),
 		fade: function(rate)
 		{
@@ -56,10 +60,12 @@ Engine.Spaceship = function(x, y, config)
 {
 	var configurations = [
 		{
-			getShip: function() {
+			getShip: function()
+			{
 				return document.getElementById('player-ship');
 			},
-			getSpeed: function() {
+			getSpeed: function()
+			{
 				return 4;
 			},
 		},
@@ -69,13 +75,17 @@ Engine.Spaceship = function(x, y, config)
 			x: x,
 			y: y
 		},
-		speed: configurations[config].getSpeed(),
+		destroy: function()
+		{
+			this.isDestroyed = true;
+		},
 		fade: function(rate)
 		{
 			this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
 			this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
 		},
-		getCurrentWeapon: function() {
+		getCurrentWeapon: function()
+		{
 			return {
 				color: [255,0,255,0.8],
 				size: 2,
@@ -83,16 +93,24 @@ Engine.Spaceship = function(x, y, config)
 				strokeColor: [255,0,255,0.8],
 			};
 		},
+		isDestroyed: false,
 		move: function(currX, currY)
 		{
-			this.position.x = currX;
-			this.position.y = currY;
+			if(!this.isDestroyed)
+			{
+				this.position.x = currX;
+				this.position.y = currY;
+			}
 		},
 		render: function()
 		{
-			var shipImg = configurations[config].getShip();
-			context.drawImage(shipImg, this.position.x, this.position.y, playerSize, playerSize);	
-		}
+			if(!this.isDestroyed)
+			{
+				var shipImg = configurations[config].getShip();
+				context.drawImage(shipImg, this.position.x, this.position.y, playerSize, playerSize);
+			}	
+		},
+		speed: configurations[config].getSpeed()
 	};
 };
 // Engine's Node object.
@@ -153,7 +171,10 @@ Engine.Scene = function()
 		},
 		render: function()
 		{
-			for(var i = 0; i < objects.length; i++) { objects[i].render(); }
+			for(var i = 0; i < objects.length; i++)
+			{
+				objects[i].render();
+			}
 		}
 	};
 };
@@ -165,8 +186,13 @@ Engine.update = function(timestamp)
 	
 	if(progress >= (1000/FPS))
 	{
+		if(!player.isDestroyed)
+		{
+			points++;
+			console.log(points);
+		}
 		context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
-		if(mouseState === 1)
+		if(mouseState === 1 && !player.isDestroyed)
 		{
 			movePlayer();
 		}
@@ -174,7 +200,8 @@ Engine.update = function(timestamp)
 		for(var i = 0; i < stars.length; i++)
 		{
 			moveProjectiles(stars[i]);
-			if(stars[i].position.x <= -5) {
+			if(stars[i].position.x <= -5)
+			{
 				stars[i].move(
 					Engine.canvas.width + 50, 
 					Math.floor(Math.random() * Engine.canvas.height)
@@ -185,7 +212,8 @@ Engine.update = function(timestamp)
 		for(var i = 0, j = 0; i < playerProjectiles.length - j; i++)
 		{
 			moveProjectiles(playerProjectiles[i]);
-			if(playerProjectiles[i].position.x >= Engine.canvas.width + 5) {
+			if(playerProjectiles[i].position.x >= Engine.canvas.width + 5)
+			{
 				scene.remove(playerProjectiles[i]);
 				playerProjectiles.splice(i, 1);
 				j++;
@@ -200,7 +228,8 @@ Engine.update = function(timestamp)
 				engineParticles[i].fade(Math.random() * (0.08 - 0.01) + 0.01);
 			}
 			
-			if(engineParticles[i].colorA <= 0) {
+			if(engineParticles[i].colorA <= 0 && !player.isDestroyed)
+			{
 				engineParticles[i].move(
 					player.position.x,
 					player.position.y + (playerSize / 2) - (7 * Math.random())
@@ -212,13 +241,15 @@ Engine.update = function(timestamp)
 		for(var i = 0, j = 0; i < spaceDebris.length - j; i++)
 		{
 			moveProjectiles(spaceDebris[i]);
-			if(spaceDebris[i].position.x < -50) {
+			if(spaceDebris[i].position.x < -50)
+			{
 				scene.remove(spaceDebris[i]);
 				spaceDebris.splice(i, 1);
 				j++;
 			}
 		}
-		if(spaceDebris.length < asteroidDensity && Math.random() > 0.98) {
+		if(spaceDebris.length < asteroidDensity && Math.random() > 0.98)
+		{
 			var asteroid = new Engine.Asteroid(
 				Engine.canvas.width + 50,
 				Math.floor(Math.random() * Engine.canvas.height),
@@ -226,6 +257,24 @@ Engine.update = function(timestamp)
 			);
 			spaceDebris.push(asteroid);
 			scene.add(asteroid);
+		}
+		// Checks to see if ship was struck by an asteroid
+		if(!player.isDestroyed)
+		{
+			for(var i = 0, j = 0; i < spaceDebris.length - j; i++)
+			{
+				var rect1 = {x: player.position.x, y: player.position.y, width: playerSize, height: playerSize};
+				var rect2 = {x: spaceDebris[i].position.x, y: spaceDebris[i].position.y, width: spaceDebris[i].size, height: spaceDebris[i].size}
+
+				if (rect1.x < rect2.x + rect2.width &&
+					rect1.x + rect1.width > rect2.x &&
+					rect1.y < rect2.y + rect2.height &&
+					rect1.height + rect1.y > rect2.y)
+				{
+					console.log("BOOM");
+					player.destroy();
+				}
+			}
 		}
 		
 		scene.render();

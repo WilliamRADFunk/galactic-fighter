@@ -18,6 +18,7 @@ var scene;
 var player;
 var playerSize = 50;
 var playerProjectiles = [];
+var points = 0;
 var enemyProjectiles = [];
 var spaceDebris = [];
 var engineParticles = [];
@@ -39,7 +40,8 @@ function init()
 	scene.add(player);
 
 	// Create the stars that will give the illusion of movement.
-	for(var i = 0; i < 20; i++) {
+	for(var i = 0; i < 20; i++)
+	{
 		var star = new Engine.Orb(
 			Math.floor(Math.random() * Engine.canvas.height) + 50,
 			Math.floor(Math.random() * Engine.canvas.height),
@@ -53,7 +55,8 @@ function init()
 	}
 
 	// Create engine particles
-	for(var i = 0; i < 50; i++) {
+	for(var i = 0; i < 50; i++)
+	{
 		var engParticle = new Engine.Orb(
 				player.position.x - (i * 5),
 				player.position.y + (playerSize / 2) - (8 * Math.random()),
@@ -150,7 +153,8 @@ function movePlayer()
 	player.move(newPlayerX, newPlayerY);
 }
 // Moves debris and projectiles along their linear paths.
-function moveProjectiles(obj) {
+function moveProjectiles(obj)
+{
 	var newObjX = obj.position.x + obj.speed;
 	var newObjY = obj.position.y;
 
