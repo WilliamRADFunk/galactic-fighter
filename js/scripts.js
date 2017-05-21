@@ -94,6 +94,9 @@ function fireWeapon(e)
 			currentWeapon.color,
 			currentWeapon.strokeColor
 		);
+		// Player spends points per shot of weapon.
+		points -= currentWeapon.points;
+		// Add projectile to the scene.
 		playerProjectiles.push(emote);
 		scene.add(emote);
 	}

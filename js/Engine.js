@@ -15,6 +15,10 @@ Engine.Asteroid = function(x, y, config)
 			{
 				return document.getElementById('asteroid');
 			},
+			getPoints: function()
+			{
+				return 100;
+			},
 			getSize: function()
 			{
 				return 30;
@@ -26,6 +30,7 @@ Engine.Asteroid = function(x, y, config)
 		},
 	];
 	return {
+		points: configurations[config].getPoints(),
 		position: {
 			x: x,
 			y: y
@@ -88,6 +93,7 @@ Engine.Spaceship = function(x, y, config)
 		{
 			return {
 				color: [255,0,255,0.8],
+				points: 1,
 				size: 2,
 				speed: 5,
 				strokeColor: [255,0,255,0.8],
@@ -193,7 +199,7 @@ Engine.update = function(timestamp)
 		if(!player.isDestroyed)
 		{
 			points++;
-			console.log(points);
+			// console.log(points);
 		}
 		context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
 		if(mouseState === 1 && !player.isDestroyed)
@@ -247,6 +253,9 @@ Engine.update = function(timestamp)
 			moveProjectiles(spaceDebris[i]);
 			if(spaceDebris[i].position.x < -50)
 			{
+				// Player loses points for missing asteroid
+				points -= spaceDebris[i].points;
+				// Remove asteroid as it leaves screen
 				scene.remove(spaceDebris[i]);
 				spaceDebris.splice(i, 1);
 				j++;
@@ -256,7 +265,7 @@ Engine.update = function(timestamp)
 		{
 			var asteroid = new Engine.Asteroid(
 				Engine.canvas.width + 50,
-				Math.floor(Math.random() * Engine.canvas.height),
+				Math.floor(Math.random() * (Engine.canvas.height - 30)),
 				0
 			);
 			spaceDebris.push(asteroid);
@@ -277,6 +286,37 @@ Engine.update = function(timestamp)
 				) {
 					console.log("BOOM");
 					player.destroy();
+				}
+			}
+		}
+		// Checks to see if asteroid was struck by a projectile
+		if(!player.isDestroyed)
+		{
+			for(var i = 0, j = 0; i < spaceDebris.length - j; i++)
+			{
+				for(var k = 0, l = 0; k < playerProjectiles.length - l; k++)
+				{
+					var projectile = {x: playerProjectiles[k].position.x, y: playerProjectiles[k].position.y, width: playerProjectiles[k].radius, height: playerProjectiles[k].radius};
+					var asteroid = {x: spaceDebris[i].position.x, y: spaceDebris[i].position.y, width: spaceDebris[i].size, height: spaceDebris[i].size}
+
+					if (projectile.x < (asteroid.x + asteroid.width)
+						&& (projectile.x + projectile.width) > asteroid.x
+						&& projectile.y < (asteroid.y + asteroid.height)
+						&& (projectile.height + projectile.y) > asteroid.y
+					) {
+						console.log("POW!");
+						console.log("Score: ", points);
+						// Remove projectile
+						scene.remove(playerProjectiles[k]);
+						playerProjectiles.splice(k, 1);
+						l++;
+						// Increase player's points
+						points += spaceDebris[i].points;
+						// Remove asteroid
+						scene.remove(spaceDebris[i]);
+						spaceDebris.splice(i, 1);
+						j++;
+					}
 				}
 			}
 		}
