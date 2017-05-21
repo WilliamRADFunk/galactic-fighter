@@ -164,6 +164,10 @@ Engine.Scene = function()
 		{
 			objects.push(obj);
 		},
+		getObjectCount: function()
+		{
+			return objects.length;
+		},
 		remove: function(obj)
 		{
 			var index = objects.indexOf(obj);
@@ -263,14 +267,14 @@ Engine.update = function(timestamp)
 		{
 			for(var i = 0, j = 0; i < spaceDebris.length - j; i++)
 			{
-				var rect1 = {x: player.position.x, y: player.position.y, width: playerSize, height: playerSize};
-				var rect2 = {x: spaceDebris[i].position.x, y: spaceDebris[i].position.y, width: spaceDebris[i].size, height: spaceDebris[i].size}
+				var ship = {x: player.position.x, y: player.position.y, width: playerSize, height: playerSize};
+				var asteroid = {x: spaceDebris[i].position.x, y: spaceDebris[i].position.y, width: spaceDebris[i].size, height: spaceDebris[i].size}
 
-				if (rect1.x < rect2.x + rect2.width &&
-					rect1.x + rect1.width > rect2.x &&
-					rect1.y < rect2.y + rect2.height &&
-					rect1.height + rect1.y > rect2.y)
-				{
+				if ((ship.x + (ship.width * 0.1)) < (asteroid.x + asteroid.width)
+					&& (ship.x + ship.width - (ship.width * 0.1)) > asteroid.x
+					&& (ship.y + (ship.height * 0.1)) < (asteroid.y + asteroid.height)
+					&& (ship.height + ship.y - (ship.height * 0.1)) > asteroid.y
+				) {
 					console.log("BOOM");
 					player.destroy();
 				}
@@ -279,7 +283,7 @@ Engine.update = function(timestamp)
 		
 		scene.render();
 		start = null;
-		// console.log('Number of projectiles: ', playerProjectiles.length);
+		// console.log('Number of scene objects: ', scene.getObjectCount());
 	}
 	window.requestAnimationFrame(Engine.update);
 };
