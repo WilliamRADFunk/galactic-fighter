@@ -274,26 +274,7 @@ Engine.asteroidProjectileCollisionHandler = function()
 				&& projectile.y < (asteroid.y + asteroid.height)
 				&& (projectile.height + projectile.y) > asteroid.y
 			) {
-				var explosionOuter = new Engine.Orb(
-					spaceDebris[i].position.x,
-					spaceDebris[i].position.y,
-					-1,
-					(spaceDebris[i].size),
-					[239, 74, 37, 0.01],
-					[239, 74, 37, 0.01]
-				);
-				explosions.push(explosionOuter);
-				scene.add(explosionOuter);
-				var explosionInner = new Engine.Orb(
-					spaceDebris[i].position.x,
-					spaceDebris[i].position.y,
-					-1,
-					(spaceDebris[i].size / 2),
-					[170, 13, 3, 0.01],
-					[170, 13, 3, 0.01]
-				);
-				explosions.push(explosionInner);
-				scene.add(explosionInner);
+				Engine.makeExplosion(spaceDebris[i]);
 				// Remove projectile
 				scene.remove(playerProjectiles[k]);
 				playerProjectiles.splice(k, 1);
@@ -321,50 +302,11 @@ Engine.asteroidShipCollisionHandler = function()
 			&& (ship.y + (ship.height * 0.1)) < (asteroid.y + asteroid.height)
 			&& (ship.height + ship.y - (ship.height * 0.1)) > asteroid.y
 		) {
-			var explosionOuter = new Engine.Orb(
-				player.position.x,
-				player.position.y,
-				-1,
-				(player.size),
-				[239, 74, 37, 0.01],
-				[239, 74, 37, 0.01]
-			);
-			explosions.push(explosionOuter);
-			scene.add(explosionOuter);
-			var explosionInner = new Engine.Orb(
-				player.position.x,
-				player.position.y,
-				-1,
-				(player.size / 2),
-				[170, 13, 3, 0.01],
-				[170, 13, 3, 0.01]
-			);
-			explosions.push(explosionInner);
-			scene.add(explosionInner);
+			Engine.makeExplosion(player);
 
 			player.destroy();
 
-			explosionOuter = new Engine.Orb(
-				spaceDebris[i].position.x,
-				spaceDebris[i].position.y,
-				-1,
-				(spaceDebris[i].size),
-				[239, 74, 37, 0.01],
-				[239, 74, 37, 0.01]
-			);
-			explosions.push(explosionOuter);
-			scene.add(explosionOuter);
-
-			explosionInner = new Engine.Orb(
-				spaceDebris[i].position.x,
-				spaceDebris[i].position.y,
-				-1,
-				(spaceDebris[i].size / 2),
-				[170, 13, 3, 0.01],
-				[170, 13, 3, 0.01]
-			);
-			explosions.push(explosionInner);
-			scene.add(explosionInner);
+			Engine.makeExplosion(spaceDebris[i]);
 
 			scene.remove(spaceDebris[i]);
 			spaceDebris.splice(i, 1);
@@ -416,6 +358,30 @@ Engine.explosionHandler = function()
 			j++;
 		}
 	}
+}
+Engine.makeExplosion = function(destroyedEntity)
+{
+	explosionOuter = new Engine.Orb(
+		destroyedEntity.position.x,
+		destroyedEntity.position.y,
+		-1,
+		(destroyedEntity.size),
+		[239, 74, 37, 0.01],
+		[239, 74, 37, 0.01]
+	);
+	explosions.push(explosionOuter);
+	scene.add(explosionOuter);
+
+	explosionInner = new Engine.Orb(
+		destroyedEntity.position.x,
+		destroyedEntity.position.y,
+		-1,
+		(destroyedEntity.size / 2),
+		[170, 13, 3, 0.01],
+		[170, 13, 3, 0.01]
+	);
+	explosions.push(explosionInner);
+	scene.add(explosionInner);
 }
 Engine.projectileMovementHandler = function()
 {
