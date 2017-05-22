@@ -15,10 +15,10 @@ var mouseState = 0;
 var asteroidDensity = 10;
 var asteroidSpeed = 2;
 var scene;
+var score;
 var player;
 var playerSize = 50;
 var playerProjectiles = [];
-var points = 0;
 var enemyProjectiles = [];
 var spaceDebris = [];
 var engineParticles = [];
@@ -69,6 +69,10 @@ function init()
 		engineParticles.push(engParticle);
 		scene.add(engParticle);
 	}
+
+	// Create scoreboard
+	score = new Engine.Score(centerX, 50);
+	scene.add(score);
 	
 	// Create the keyboard event listener
 	document.addEventListener("keypress", fireWeapon, false);
@@ -86,7 +90,7 @@ function fireWeapon(e)
 	if(e.keyCode === 32)
 	{
 		var currentWeapon = player.getCurrentWeapon();
-		var emote = new Engine.Orb(
+		var bullet = new Engine.Orb(
 			player.position.x + 51,
 			player.position.y + 25,
 			currentWeapon.speed,
@@ -95,10 +99,10 @@ function fireWeapon(e)
 			currentWeapon.strokeColor
 		);
 		// Player spends points per shot of weapon.
-		points -= currentWeapon.points;
+		score.addPoints(-currentWeapon.points * 10);
 		// Add projectile to the scene.
-		playerProjectiles.push(emote);
-		scene.add(emote);
+		playerProjectiles.push(bullet);
+		scene.add(bullet);
 	}
 }
 // Mouse state is active (mov player)

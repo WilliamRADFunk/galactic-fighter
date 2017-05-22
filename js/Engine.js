@@ -60,6 +60,47 @@ Engine.Asteroid = function(x, y, config)
 		}
 	};
 };
+// Engine's Score object.
+Engine.Score = function(x, y)
+{
+	var points = 0;
+	return {
+		position:
+		{
+			x: x,
+			y: y
+		},
+		addPoints: function(plus)
+		{
+			points += plus;
+			if(points < 0)
+			{
+				points = 0;
+			}
+		},
+		fade: function(rate)
+		{
+			this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
+			this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
+		},
+		getPoints: function()
+		{
+			return points;
+		},
+		move: function(currX, currY)
+		{
+			this.position.x = currX;
+			this.position.y = currY;
+		},
+		render: function()
+		{
+			context.fillStyle = '#FFFFFF';
+			context.font = '48px serif';
+			context.textAlign = 'center';
+			context.fillText('Score: ' + points, this.position.x, this.position.y);
+		}
+	};
+};
 // Engine's Spaceship object.
 Engine.Spaceship = function(x, y, config)
 {
@@ -196,11 +237,6 @@ Engine.update = function(timestamp)
 	
 	if(progress >= (1000/FPS))
 	{
-		if(!player.isDestroyed)
-		{
-			points++;
-			// console.log(points);
-		}
 		context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
 		if(mouseState === 1 && !player.isDestroyed)
 		{
@@ -254,7 +290,7 @@ Engine.update = function(timestamp)
 			if(spaceDebris[i].position.x < -50)
 			{
 				// Player loses points for missing asteroid
-				points -= spaceDebris[i].points;
+				score.addPoints(-spaceDebris[i].points);
 				// Remove asteroid as it leaves screen
 				scene.remove(spaceDebris[i]);
 				spaceDebris.splice(i, 1);
@@ -305,17 +341,17 @@ Engine.update = function(timestamp)
 						&& (projectile.height + projectile.y) > asteroid.y
 					) {
 						console.log("POW!");
-						console.log("Score: ", points);
 						// Remove projectile
 						scene.remove(playerProjectiles[k]);
 						playerProjectiles.splice(k, 1);
 						l++;
 						// Increase player's points
-						points += spaceDebris[i].points;
+						score.addPoints(spaceDebris[i].points);
 						// Remove asteroid
 						scene.remove(spaceDebris[i]);
 						spaceDebris.splice(i, 1);
 						j++;
+						break;
 					}
 				}
 			}
