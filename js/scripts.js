@@ -17,6 +17,7 @@ var asteroidSpeed = 2;
 var scene;
 var score;
 var player;
+var themeMusic;
 var enemyProjectiles = [];
 var engineParticles = [];
 var explosions = [];
@@ -33,6 +34,17 @@ function init()
 	centerX = Engine.canvas.width/2;
 	centerY = Engine.canvas.height/2;
 	context = Engine.canvas.getContext('2d');
+
+	/*
+	* Audio Clip By DesignedImpression
+	* https://www.looperman.com/loops/detail/106213/organ-loop-bella-120-by-designedimpression-free-120bpm-cinematic-organ-loop
+	*/
+	var themeMusic = new Audio('assets/theme-music.wav');
+	themeMusic.addEventListener('ended', function() {
+		this.currentTime = 0;
+		this.play();
+	}, false);
+	themeMusic.play();
 	
 	// Create the player
 	player = new Engine.Spaceship(centerX - 150, centerY, 0);
@@ -89,6 +101,12 @@ function fireWeapon(e)
 {
 	if(e.keyCode === 32)
 	{
+		/*
+		* Audio Clip By DKnight556
+		* http://soundbible.com/1949-Pew-Pew.html
+		*/
+		var pew = new Audio('assets/pew.wav');
+		pew.play();
 		var currentWeapon = player.getCurrentWeapon();
 		var bullet = new Engine.Orb(
 			player.position.x + 51,

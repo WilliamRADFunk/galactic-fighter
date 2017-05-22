@@ -361,6 +361,13 @@ Engine.explosionHandler = function()
 }
 Engine.makeExplosion = function(destroyedEntity)
 {
+	/*
+	* Audio Clip By Mike Koenig
+	* http://soundbible.com/1234-Bomb.html
+	*/
+	var boom = new Audio('assets/explosion.wav');
+	boom.play();
+
 	explosionOuter = new Engine.Orb(
 		destroyedEntity.position.x,
 		destroyedEntity.position.y,
