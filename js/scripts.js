@@ -36,14 +36,15 @@ function init()
 	context = Engine.canvas.getContext('2d');
 
 	/*
-	* Audio Clip By DesignedImpression
-	* https://www.looperman.com/loops/detail/106213/organ-loop-bella-120-by-designedimpression-free-120bpm-cinematic-organ-loop
+	* Audio Clip By Kritex
+	* https://www.looperman.com/loops/detail/70534/adventure-club-drop-loop-by-kritex-free-140bpm-dubstep-wobble-bass-loop
 	*/
 	var themeMusic = new Audio('assets/theme-music.wav');
 	themeMusic.addEventListener('ended', function() {
 		this.currentTime = 0;
 		this.play();
 	}, false);
+	themeMusic.volume = 0.6;
 	themeMusic.play();
 	
 	// Create the player
@@ -106,6 +107,7 @@ function fireWeapon(e)
 		* http://soundbible.com/1949-Pew-Pew.html
 		*/
 		var pew = new Audio('assets/pew.wav');
+		pew.volume = 0.4;
 		pew.play();
 		var currentWeapon = player.getCurrentWeapon();
 		var bullet = new Engine.Orb(

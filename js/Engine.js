@@ -366,6 +366,7 @@ Engine.makeExplosion = function(destroyedEntity)
 	* http://soundbible.com/1234-Bomb.html
 	*/
 	var boom = new Audio('assets/explosion.wav');
+	boom.volume = 0.4;
 	boom.play();
 
 	explosionOuter = new Engine.Orb(
