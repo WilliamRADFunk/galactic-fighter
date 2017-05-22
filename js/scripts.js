@@ -17,11 +17,11 @@ var asteroidSpeed = 2;
 var scene;
 var score;
 var player;
-var playerSize = 50;
-var playerProjectiles = [];
 var enemyProjectiles = [];
-var spaceDebris = [];
 var engineParticles = [];
+var explosions = [];
+var playerProjectiles = [];
+var spaceDebris = [];
 var stars = [];
 
 // Canvas setup and Engine instigation.
@@ -59,7 +59,7 @@ function init()
 	{
 		var engParticle = new Engine.Orb(
 				player.position.x - (i * 5),
-				player.position.y + (playerSize / 2) - (8 * Math.random()),
+				player.position.y + (player.size / 2) - (8 * Math.random()),
 				-3,
 				1,
 				[232,185,18,Math.random()],
@@ -129,12 +129,12 @@ function getMouseCoordinates(e)
 	var width = wrapperElement.offsetWidth;
 	var height = wrapperElement.offsetHeight;
 	// Get the X coordinate for mouse
-	if(e.clientX <= rect.left) mouseX = 0 + playerSize;
-	else if(e.clientX >= (rect.left + width)) mouseX = width - playerSize;
+	if(e.clientX <= rect.left) mouseX = 0 + player.size;
+	else if(e.clientX >= (rect.left + width)) mouseX = width - player.size;
 	else mouseX = e.clientX - rect.left;
 	// Get the Y coordinate for mouse
-	if(e.clientY >= (rect.top + height)) mouseY = height - playerSize;
-	else if(e.clientY <= rect.top) mouseY = 0 + playerSize;
+	if(e.clientY >= (rect.top + height)) mouseY = height - player.size;
+	else if(e.clientY <= rect.top) mouseY = 0 + player.size;
 	else mouseY = e.clientY - rect.top;
 }
 // Does some smoothing math to transition player toward mouse pointer.

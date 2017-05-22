@@ -110,6 +110,10 @@ Engine.Spaceship = function(x, y, config)
 			{
 				return document.getElementById('player-ship');
 			},
+			getSize: function()
+			{
+				return 50;
+			},
 			getSpeed: function()
 			{
 				return 4;
@@ -121,6 +125,7 @@ Engine.Spaceship = function(x, y, config)
 			x: x,
 			y: y
 		},
+		size: configurations[config].getSize(),
 		destroy: function()
 		{
 			this.isDestroyed = true;
@@ -154,7 +159,7 @@ Engine.Spaceship = function(x, y, config)
 			if(!this.isDestroyed)
 			{
 				var shipImg = configurations[config].getShip();
-				context.drawImage(shipImg, this.position.x, this.position.y, playerSize, playerSize);
+				context.drawImage(shipImg, this.position.x, this.position.y, player.size, player.size);
 			}	
 		},
 		speed: configurations[config].getSpeed()
@@ -278,7 +283,7 @@ Engine.update = function(timestamp)
 			{
 				engineParticles[i].move(
 					player.position.x,
-					player.position.y + (playerSize / 2) - (7 * Math.random())
+					player.position.y + (player.size / 2) - (7 * Math.random())
 				);
 				engineParticles[i].fade(-1);
 			}
@@ -312,7 +317,7 @@ Engine.update = function(timestamp)
 		{
 			for(var i = 0, j = 0; i < spaceDebris.length - j; i++)
 			{
-				var ship = {x: player.position.x, y: player.position.y, width: playerSize, height: playerSize};
+				var ship = {x: player.position.x, y: player.position.y, width: player.size, height: player.size};
 				var asteroid = {x: spaceDebris[i].position.x, y: spaceDebris[i].position.y, width: spaceDebris[i].size, height: spaceDebris[i].size}
 
 				if ((ship.x + (ship.width * 0.1)) < (asteroid.x + asteroid.width)
@@ -320,9 +325,51 @@ Engine.update = function(timestamp)
 					&& (ship.y + (ship.height * 0.1)) < (asteroid.y + asteroid.height)
 					&& (ship.height + ship.y - (ship.height * 0.1)) > asteroid.y
 				) {
-					console.log("BOOM");
+					var explosionOuter = new Engine.Orb(
+						player.position.x,
+						player.position.y,
+						-1,
+						(player.size),
+						[239, 74, 37, 0.01],
+						[239, 74, 37, 0.01]
+					);
+					explosions.push(explosionOuter);
+					scene.add(explosionOuter);
+					var explosionInner = new Engine.Orb(
+						player.position.x,
+						player.position.y,
+						-1,
+						(player.size / 2),
+						[170, 13, 3, 0.01],
+						[170, 13, 3, 0.01]
+					);
+					explosions.push(explosionInner);
+					scene.add(explosionInner);
+
 					player.destroy();
 				}
+			}
+		}
+		// Handles movement and fading of explosions
+		for(var i = 0, j = 0; i < explosions.length - j; i++)
+		{
+			explosions[i].move(explosions[i].position.x + explosions[i].speed, explosions[i].position.y);
+			if(explosions[i].colorA > 0 && explosions[i].colorA <= 0.7 && explosions[i].isBlooming !== false)
+			{
+				explosions[i].fade(-0.02);
+				explosions[i].isBlooming = true;
+			}
+			else if(explosions[i].colorA > 0 || explosions[i].colorA > 0.7)
+			{
+				explosions[i].isBlooming = false;
+				explosions[i].fade(0.01);
+			}
+			else
+			{
+				// Remove explosion as it fades away
+				scene.remove(explosions[i]);
+				explosions.splice(i, 1);
+				j++;
 			}
 		}
 		// Checks to see if asteroid was struck by a projectile
@@ -340,7 +387,26 @@ Engine.update = function(timestamp)
 						&& projectile.y < (asteroid.y + asteroid.height)
 						&& (projectile.height + projectile.y) > asteroid.y
 					) {
-						console.log("POW!");
+						var explosionOuter = new Engine.Orb(
+							spaceDebris[i].position.x,
+							spaceDebris[i].position.y,
+							-1,
+							(spaceDebris[i].size),
+							[239, 74, 37, 0.01],
+							[239, 74, 37, 0.01]
+						);
+						explosions.push(explosionOuter);
+						scene.add(explosionOuter);
+						var explosionInner = new Engine.Orb(
+							spaceDebris[i].position.x,
+							spaceDebris[i].position.y,
+							-1,
+							(spaceDebris[i].size / 2),
+							[170, 13, 3, 0.01],
+							[170, 13, 3, 0.01]
+						);
+						explosions.push(explosionInner);
+						scene.add(explosionInner);
 						// Remove projectile
 						scene.remove(playerProjectiles[k]);
 						playerProjectiles.splice(k, 1);
