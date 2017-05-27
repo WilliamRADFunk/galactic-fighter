@@ -140,6 +140,7 @@ Engine.Spaceship = function(x, y, config)
 			return {
 				color: [255,0,255,0.8],
 				points: 1,
+				recharge: 10,
 				size: 2,
 				speed: 5,
 				strokeColor: [255,0,255,0.8],
@@ -241,8 +242,11 @@ Engine.asteroidMovementHandler = function()
 		moveProjectiles(spaceDebris[i]);
 		if(spaceDebris[i].position.x < -50)
 		{
-			// Player loses points for missing asteroid
-			score.addPoints(-spaceDebris[i].points);
+			if(!player.isDestroyed)
+			{
+				// Player loses points for missing asteroid
+				score.addPoints(-spaceDebris[i].points);
+			}
 			// Remove asteroid as it leaves screen
 			scene.remove(spaceDebris[i]);
 			spaceDebris.splice(i, 1);
@@ -279,8 +283,11 @@ Engine.asteroidProjectileCollisionHandler = function()
 				scene.remove(playerProjectiles[k]);
 				playerProjectiles.splice(k, 1);
 				l++;
-				// Increase player's points
-				score.addPoints(spaceDebris[i].points);
+				if(!player.isDestroyed)
+				{
+					// Increase player's points
+					score.addPoints(spaceDebris[i].points);
+				}
 				// Remove asteroid
 				scene.remove(spaceDebris[i]);
 				spaceDebris.splice(i, 1);
@@ -426,6 +433,11 @@ Engine.update = function(timestamp)
 	
 	if(progress >= (1000/FPS))
 	{
+		if(score.getPoints() >= level * 5000)
+		{
+			level++;
+			asteroidDensity = level * 10;
+		}
 		context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
 		if(mouseState === 1 && !player.isDestroyed)
 		{
@@ -453,6 +465,8 @@ Engine.update = function(timestamp)
 		scene.render();
 		start = null;
 		// console.log('Number of scene objects: ', scene.getObjectCount());
+
+		recharge--;
 	}
 	window.requestAnimationFrame(Engine.update);
 };

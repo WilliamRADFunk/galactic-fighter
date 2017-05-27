@@ -14,6 +14,8 @@ var mouseY = centerY;
 var mouseState = 0;
 var asteroidDensity = 10;
 var asteroidSpeed = 2;
+var level = 1;
+var recharge = 0;
 var scene;
 var score;
 var player;
@@ -88,7 +90,7 @@ function init()
 	scene.add(score);
 	
 	// Create the keyboard event listener
-	document.addEventListener("keypress", fireWeapon, false);
+	document.addEventListener("keypress", handleKeys, false);
 	document.addEventListener("mousedown", mouseDown, false);
 	document.addEventListener("mouseup", mouseUp, false);
 	document.addEventListener("mousemove", mouseMove, false);
@@ -98,32 +100,37 @@ function init()
 	//setInterval(Engine.run, (1000/FPS)); //Change FPS at top to alter speed. Lower is slower.
 }
 // Receive emote command and perform its effect.
-function fireWeapon(e)
+function handleKeys(e)
 {
 	// Captures spacebar for Chrome and Firefox, respectively.
 	if(e.keyCode === 32 || e.which === 32)
 	{
-		/*
-		* Audio Clip By DKnight556
-		* http://soundbible.com/1949-Pew-Pew.html
-		*/
-		var pew = new Audio('assets/pew.wav');
-		pew.volume = 0.4;
-		pew.play();
-		var currentWeapon = player.getCurrentWeapon();
-		var bullet = new Engine.Orb(
-			player.position.x + 51,
-			player.position.y + 25,
-			currentWeapon.speed,
-			currentWeapon.size,
-			currentWeapon.color,
-			currentWeapon.strokeColor
-		);
-		// Player spends points per shot of weapon.
-		score.addPoints(-currentWeapon.points * 10);
-		// Add projectile to the scene.
-		playerProjectiles.push(bullet);
-		scene.add(bullet);
+		if(recharge <= 0)
+		{
+			/*
+			* Audio Clip By DKnight556
+			* http://soundbible.com/1949-Pew-Pew.html
+			*/
+			var pew = new Audio('assets/pew.wav');
+			pew.volume = 0.4;
+			pew.play();
+			var currentWeapon = player.getCurrentWeapon();
+			var bullet = new Engine.Orb(
+				player.position.x + 51,
+				player.position.y + 25,
+				currentWeapon.speed,
+				currentWeapon.size,
+				currentWeapon.color,
+				currentWeapon.strokeColor
+			);
+			// Player spends points per shot of weapon.
+			score.addPoints(-currentWeapon.points * 10);
+			// Add projectile to the scene.
+			playerProjectiles.push(bullet);
+			scene.add(bullet);
+
+			recharge = currentWeapon.recharge;
+		}
 	}
 }
 // Mouse state is active (mov player)
