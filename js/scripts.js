@@ -100,7 +100,8 @@ function init()
 // Receive emote command and perform its effect.
 function fireWeapon(e)
 {
-	if(e.keyCode === 32)
+	// Captures spacebar for Chrome and Firefox, respectively.
+	if(e.keyCode === 32 || e.which === 32)
 	{
 		/*
 		* Audio Clip By DKnight556
