@@ -14,6 +14,7 @@ var mouseY = centerY;
 var mouseState = 0;
 var asteroidDensity = 10;
 var asteroidSpeed = 2;
+var powerUp = null;
 var level = 1;
 var recharge = 0;
 var scene;

@@ -60,6 +60,138 @@ Engine.Asteroid = function(x, y, config)
 		}
 	};
 };
+// Engine's Node object.
+Engine.Orb = function(x, y, rate, rad, c, strokeC)
+{
+	return {
+		position: {
+			x: x,
+			y: y
+		},
+		speed: rate,
+		colorR: c[0],
+		colorG: c[1],
+		colorB: c[2],
+		colorA: c[3],
+		strokeColorR: strokeC[0],
+		strokeColorG: strokeC[1],
+		strokeColorB: strokeC[2],
+		strokeColorA: strokeC[3],
+		radius: rad,
+		fade: function(rate)
+		{
+			this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
+			this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
+		},
+		move: function(currX, currY)
+		{
+			this.position.x = currX;
+			this.position.y = currY;
+		},
+		render: function()
+		{
+			var col = "rgba(" + this.colorR + "," + this.colorG + "," + this.colorB + "," + this.colorA + ")";
+			var strCol = "rgba(" + this.strokeColorR + "," + this.strokeColorG + "," + this.strokeColorB + "," + this.strokeColorA + ")";
+			context.beginPath();
+			context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI, false);
+			context.fillStyle = col;
+			context.fill();
+			context.lineWidth = 1;
+			context.strokeStyle = strCol
+			context.stroke();	
+		}
+	};
+};
+// Engine's Asteroid object.
+Engine.PowerUp = function(x, y, config)
+{
+	var configurations = [
+		{
+			getPowerUp: function()
+			{
+				return document.getElementById('power-up-null');
+			},
+			getSize: function()
+			{
+				return 30;
+			},
+			getSpeed: function()
+			{
+				return -4;
+			},
+		},
+		{
+			getPowerUp: function()
+			{
+				return document.getElementById('power-up-speed');
+			},
+			getSize: function()
+			{
+				return 30;
+			},
+			getSpeed: function()
+			{
+				return -4;
+			},
+		},
+		{
+			getPowerUp: function()
+			{
+				return document.getElementById('power-up-shield');
+			},
+			getSize: function()
+			{
+				return 30;
+			},
+			getSpeed: function()
+			{
+				return -4;
+			},
+		},
+		{
+			getPowerUp: function()
+			{
+				return document.getElementById('power-up-rechargeless');
+			},
+			getSize: function()
+			{
+				return 30;
+			},
+			getSpeed: function()
+			{
+				return -4;
+			},
+		},
+	];
+	return {
+		position: {
+			x: x,
+			y: y
+		},
+		size: configurations[config].getSize(),
+		speed: configurations[config].getSpeed(),
+		getEffect: function()
+		{
+			return config;
+		},
+		move: function(currX, currY)
+		{
+			this.position.x = currX;
+			this.position.y = currY;
+		},
+		render: function()
+		{
+			var powerUpImg = configurations[config].getPowerUp();
+			context.drawImage(
+				powerUpImg,
+				this.position.x,
+				this.position.y,
+				configurations[config].getSize(),
+				configurations[config].getSize()
+			);	
+		}
+	};
+};
 // Engine's Score object.
 Engine.Score = function(x, y)
 {
@@ -118,6 +250,92 @@ Engine.Spaceship = function(x, y, config)
 			{
 				return 4;
 			},
+			getWeapon: function()
+			{
+				return {
+					color: [220, 20, 60, 0.8],
+					points: 0.5,
+					recharge: 10,
+					size: 2,
+					speed: 5,
+					strokeColor: [220, 20, 60, 0.8],
+				};
+			},
+		},
+		{
+			getShip: function()
+			{
+				return document.getElementById('player-ship-blue');
+			},
+			getSize: function()
+			{
+				return 50;
+			},
+			getSpeed: function()
+			{
+				return 6;
+			},
+			getWeapon: function()
+			{
+				return {
+					color: [0, 0, 255, 0.8],
+					points: 1,
+					recharge: 10,
+					size: 2,
+					speed: 1,
+					strokeColor: [0, 0, 255, 0.8],
+				};
+			},
+		},
+		{
+			getShip: function()
+			{
+				return document.getElementById('player-ship-green');
+			},
+			getSize: function()
+			{
+				return 50;
+			},
+			getSpeed: function()
+			{
+				return 4;
+			},
+			getWeapon: function()
+			{
+				return {
+					color: [0, 100, 0, 0.8],
+					points: 1,
+					recharge: 20,
+					size: 6,
+					speed: 5,
+					strokeColor: [0, 100, 0, 0.8],
+				};
+			},
+		},
+		{
+			getShip: function()
+			{
+				return document.getElementById('player-ship-yellow');
+			},
+			getSize: function()
+			{
+				return 50;
+			},
+			getSpeed: function()
+			{
+				return 4;
+			},
+			getWeapon: function()
+			{
+				return {
+					color: [234, 228, 85, 0.8],
+					points: 2,
+					recharge: 4,
+					size: 2,
+					speed: 5,
+					strokeColor: [234, 228, 85, 0.8],
+				};
+			},
 		},
 	];
 	return {
@@ -137,14 +355,7 @@ Engine.Spaceship = function(x, y, config)
 		},
 		getCurrentWeapon: function()
 		{
-			return {
-				color: [255,0,255,0.8],
-				points: 1,
-				recharge: 10,
-				size: 2,
-				speed: 5,
-				strokeColor: [255,0,255,0.8],
-			};
+			return configurations[config].getWeapon();
 		},
 		isDestroyed: false,
 		move: function(currX, currY)
@@ -164,48 +375,6 @@ Engine.Spaceship = function(x, y, config)
 			}	
 		},
 		speed: configurations[config].getSpeed()
-	};
-};
-// Engine's Node object.
-Engine.Orb = function(x, y, rate, rad, c, strokeC)
-{
-	return {
-		position: {
-			x: x,
-			y: y
-		},
-		speed: rate,
-		colorR: c[0],
-		colorG: c[1],
-		colorB: c[2],
-		colorA: c[3],
-		strokeColorR: strokeC[0],
-		strokeColorG: strokeC[1],
-		strokeColorB: strokeC[2],
-		strokeColorA: strokeC[3],
-		radius: rad,
-		fade: function(rate)
-		{
-			this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
-			this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
-		},
-		move: function(currX, currY)
-		{
-			this.position.x = currX;
-			this.position.y = currY;
-		},
-		render: function()
-		{
-			var col = "rgba(" + this.colorR + "," + this.colorG + "," + this.colorB + "," + this.colorA + ")";
-			var strCol = "rgba(" + this.strokeColorR + "," + this.strokeColorG + "," + this.strokeColorB + "," + this.strokeColorA + ")";
-			context.beginPath();
-			context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI, false);
-			context.fillStyle = col;
-			context.fill();
-			context.lineWidth = 1;
-			context.strokeStyle = strCol
-			context.stroke();	
-		}
 	};
 };
 
@@ -257,7 +426,7 @@ Engine.asteroidMovementHandler = function()
 	{
 		var asteroid = new Engine.Asteroid(
 			Engine.canvas.width + 50,
-			Math.floor(Math.random() * (Engine.canvas.height - 30)),
+			Math.floor(Math.random() * (Engine.canvas.height - 60) + 30),
 			0
 		);
 		spaceDebris.push(asteroid);
@@ -398,6 +567,43 @@ Engine.makeExplosion = function(destroyedEntity)
 	explosions.push(explosionInner);
 	scene.add(explosionInner);
 }
+Engine.powerUpHandler = function()
+{
+	if(powerUp === null && Math.random() > 0.995)
+	{
+		powerUp = new Engine.PowerUp(
+			Engine.canvas.width + 50,
+			Math.floor(Math.random() * (Engine.canvas.height - 60) + 30),
+			Math.floor(Math.random() * 3.99),
+		);
+		scene.add(powerUp);
+	}
+	else if(powerUp !== null)
+	{
+		var powerup = {x: powerUp.position.x, y: powerUp.position.y, width: powerUp.size, height: powerUp.size};
+		var ship = {x: player.position.x, y: player.position.y, width: player.size, height: player.size}
+		if(powerUp.position.x < 0)
+		{
+			scene.remove(powerUp);
+			powerUp = null;
+		}
+		else if(powerup.x < (ship.x + ship.width)
+			&& (powerup.x + powerup.width) > ship.x
+			&& powerup.y < (ship.y + ship.height)
+			&& (powerup.height + powerup.y) > ship.y)
+		{
+			scene.remove(powerUp);
+			scene.remove(player);
+			player = new Engine.Spaceship(player.position.x, player.position.y, powerUp.getEffect());
+			scene.add(player);
+			powerUp = null;
+		}
+		else
+		{
+			powerUp.move(powerUp.position.x + powerUp.speed, powerUp.position.y);
+		}
+	}
+}
 Engine.projectileMovementHandler = function()
 {
 	for(var i = 0, j = 0; i < playerProjectiles.length - j; i++)
@@ -454,6 +660,13 @@ Engine.update = function(timestamp)
 			Engine.asteroidShipCollisionHandler();
 			// Checks to see if asteroid was struck by a projectile
 			Engine.asteroidProjectileCollisionHandler();
+			// Small chance that a powerup happens
+			Engine.powerUpHandler();
+		}
+		else if(powerUp !== null)
+		{
+			scene.remove(powerUp);
+			powerUp = null;
 		}
 		// Handles movement and fading of explosions
 		Engine.explosionHandler();

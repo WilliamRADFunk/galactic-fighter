@@ -32,7 +32,10 @@ body
     position: relative;
 	width: 600px;
 }
-#player-ship
+#player-ship,
+#player-ship-blue,
+#player-ship-green,
+#player-ship-yellow
 {
     /*
     * Image By valeatory:
@@ -42,6 +45,21 @@ body
     position: absolute;
     left: -1000px;
 	width: 252px;
+    z-index: 3;
+}
+#power-up-null,
+#power-up-speed,
+#power-up-shield,
+#power-up-rechargeless
+{
+    /*
+    * Image By cibo00:
+    * https://openclipart.org/detail/167749/atomic-pill
+    */
+    height: 300px;
+    position: absolute;
+    left: -1000px;
+    width: 300px;
     z-index: 3;
 }
 #engine-wrapper
