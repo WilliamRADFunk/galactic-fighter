@@ -640,12 +640,6 @@ Engine.enemyProjectileCollisionHandler = function()
 			var projectile = {x: playerProjectiles[k].position.x, y: playerProjectiles[k].position.y, width: playerProjectiles[k].radius, height: playerProjectiles[k].radius};
 			var enemy = {x: enemyShips[i].position.x, y: enemyShips[i].position.y, width: enemyShips[i].size, height: enemyShips[i].size}
 
-			console.log(
-				projectile.x < (enemy.x + enemy.width),
-				(projectile.x + projectile.width) > enemy.x,
-				projectile.y < (enemy.y + enemy.height),
-				(projectile.height + projectile.y) > enemy.y
-			);
 			if (projectile.x < (enemy.x + enemy.width)
 				&& (projectile.x + projectile.width) > enemy.x
 				&& projectile.y < (enemy.y + enemy.height)
