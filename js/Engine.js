@@ -348,16 +348,104 @@ Engine.Spaceship = function(x, y, config)
 		{
 			this.isDestroyed = true;
 		},
-		fade: function(rate)
-		{
-			this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
-			this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
-		},
 		getCurrentWeapon: function()
 		{
 			return configurations[config].getWeapon();
 		},
 		isDestroyed: false,
+		move: function(currX, currY)
+		{
+			if(!this.isDestroyed)
+			{
+				this.position.x = currX;
+				this.position.y = currY;
+			}
+		},
+		render: function()
+		{
+			if(!this.isDestroyed)
+			{
+				var shipImg = configurations[config].getShip();
+				context.drawImage(shipImg, this.position.x, this.position.y, player.size, player.size);
+			}	
+		},
+		speed: configurations[config].getSpeed()
+	};
+};
+// Engine's Enemy Spaceship object.
+Engine.EnemySpaceship = function(x, y, config)
+{
+	var configurations = [
+		{
+			getMovement: function()
+			{
+				return [
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+					'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+					'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+					'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+					'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+					'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+					'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+					'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+					'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+					'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+					'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+					'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+					'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+				];
+			},
+			getPoints: function()
+			{
+				return 500;
+			},
+			getShip: function()
+			{
+				return document.getElementById('enemy-ship');
+			},
+			getSize: function()
+			{
+				return 50;
+			},
+			getSpeed: function()
+			{
+				return 4;
+			},
+			getWeapon: function()
+			{
+				return {
+					color: [220, 20, 60, 0.8],
+					points: 0.5,
+					recharge: 10,
+					size: -2,
+					speed: 5,
+					strokeColor: [220, 20, 60, 0.8],
+				};
+			},
+		},
+	];
+	return {
+		position: {
+			x: x,
+			y: y
+		},
+		size: configurations[config].getSize(),
+		getCurrentWeapon: function()
+		{
+			return configurations[config].getWeapon();
+		},
+		getMovement: configurations[config].getMovement(),
+		points: configurations[config].getPoints(),
 		move: function(currX, currY)
 		{
 			if(!this.isDestroyed)
@@ -488,6 +576,97 @@ Engine.asteroidShipCollisionHandler = function()
 			spaceDebris.splice(i, 1);
 			j++;
 			break;
+		}
+	}
+}
+Engine.createEnemies = function(num)
+{
+	var startingY = 50;
+	for(var i = 0; i < num; i++)
+	{
+		var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + 50, startingY + (i * 75), 0);
+		enemyShips.push(enemyShip);
+		scene.add(enemyShip);
+	}
+}
+Engine.enemyMovementHandler = function()
+{
+	for(var i = 0; i < enemyShips.length; i++)
+	{
+		var x = 0;
+		var y = 0;
+		if(enemyShips[i].currentMovement === undefined
+			|| enemyShips[i].currentMovement >= enemyShips[i].getMovement.length)
+		{
+			enemyShips[i].currentMovement = 0;
+		}
+		switch(enemyShips[i].getMovement[enemyShips[i].currentMovement])
+		{
+			case 'L':
+			{
+				x--;
+				break;
+			}
+			case 'U':
+			{
+				y--;
+				break;
+			}
+			case 'R':
+			{
+				x++;
+				break;
+			}
+			case 'D':
+			{
+				y++;
+				break;
+			}
+			default:
+			{
+				break;
+			}
+		}
+		enemyShips[i].move(enemyShips[i].position.x + x, enemyShips[i].position.y + y);
+		enemyShips[i].currentMovement++;
+	}
+}
+Engine.enemyProjectileCollisionHandler = function()
+{
+	for(var i = 0, j = 0; i < enemyShips.length - j; i++)
+	{
+		for(var k = 0, l = 0; k < playerProjectiles.length - l; k++)
+		{
+			var projectile = {x: playerProjectiles[k].position.x, y: playerProjectiles[k].position.y, width: playerProjectiles[k].radius, height: playerProjectiles[k].radius};
+			var enemy = {x: enemyShips[i].position.x, y: enemyShips[i].position.y, width: enemyShips[i].size, height: enemyShips[i].size}
+
+			console.log(
+				projectile.x < (enemy.x + enemy.width),
+				(projectile.x + projectile.width) > enemy.x,
+				projectile.y < (enemy.y + enemy.height),
+				(projectile.height + projectile.y) > enemy.y
+			);
+			if (projectile.x < (enemy.x + enemy.width)
+				&& (projectile.x + projectile.width) > enemy.x
+				&& projectile.y < (enemy.y + enemy.height)
+				&& (projectile.height + projectile.y) > enemy.y
+			) {
+				Engine.makeExplosion(enemyShips[i]);
+				// Remove projectile
+				scene.remove(playerProjectiles[k]);
+				playerProjectiles.splice(k, 1);
+				l++;
+				if(!player.isDestroyed)
+				{
+					// Increase player's points
+					score.addPoints(enemyShips[i].points);
+				}
+				// Remove enemy ship
+				scene.remove(enemyShips[i]);
+				enemyShips.splice(i, 1);
+				j++;
+				break;
+			}
 		}
 	}
 }
@@ -639,10 +818,15 @@ Engine.update = function(timestamp)
 	
 	if(progress >= (1000/FPS))
 	{
-		if(score.getPoints() >= level * 5000)
+		if(score.getPoints() >= asteroidLevel * 5000)
 		{
-			level++;
-			asteroidDensity = level * 10;
+			asteroidLevel++;
+			asteroidDensity = asteroidLevel * 10;
+		}
+		if(score.getPoints() >= enemyLevel * 2000)
+		{
+			enemyLevel++;
+			Engine.createEnemies(enemyLevel * 2);
 		}
 		context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
 		if(mouseState === 1 && !player.isDestroyed)
@@ -662,12 +846,16 @@ Engine.update = function(timestamp)
 			Engine.asteroidProjectileCollisionHandler();
 			// Small chance that a powerup happens
 			Engine.powerUpHandler();
+			// Handles collisions between enemy ships and player projectiles
+			Engine.enemyProjectileCollisionHandler();
 		}
 		else if(powerUp !== null)
 		{
 			scene.remove(powerUp);
 			powerUp = null;
 		}
+		// Moves enemies according to their individual configurations
+		Engine.enemyMovementHandler();
 		// Handles movement and fading of explosions
 		Engine.explosionHandler();
 		// Move, remove, and create (at random) asteroids as they leave the screen.

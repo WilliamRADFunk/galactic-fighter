@@ -32,6 +32,18 @@ body
     position: relative;
 	width: 600px;
 }
+#enemy-ship
+{
+    /*
+    * Image By jamiely:
+    * https://openclipart.org/detail/172793/spaceship-glider
+    */
+    height: 282;
+    position: absolute;
+    left: -1000px;
+    width: 261;
+    z-index: 3;
+}
 #player-ship,
 #player-ship-blue,
 #player-ship-green,

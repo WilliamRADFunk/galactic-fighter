@@ -15,13 +15,15 @@ var mouseState = 0;
 var asteroidDensity = 10;
 var asteroidSpeed = 2;
 var powerUp = null;
-var level = 1;
+var asteroidLevel = 0;
+var enemyLevel = 0;
 var recharge = 0;
 var scene;
 var score;
 var player;
 var themeMusic;
 var enemyProjectiles = [];
+var enemyShips = [];
 var engineParticles = [];
 var explosions = [];
 var playerProjectiles = [];
@@ -42,13 +44,13 @@ function init()
 	* Audio Clip By Kritex
 	* https://www.looperman.com/loops/detail/70534/adventure-club-drop-loop-by-kritex-free-140bpm-dubstep-wobble-bass-loop
 	*/
-	var themeMusic = new Audio('assets/theme-music.wav');
-	themeMusic.addEventListener('ended', function() {
-		this.currentTime = 0;
-		this.play();
-	}, false);
-	themeMusic.volume = 0.6;
-	themeMusic.play();
+	// var themeMusic = new Audio('assets/theme-music.wav');
+	// themeMusic.addEventListener('ended', function() {
+	// 	this.currentTime = 0;
+	// 	this.play();
+	// }, false);
+	// themeMusic.volume = 0.6;
+	// themeMusic.play();
 	
 	// Create the player
 	player = new Engine.Spaceship(centerX - 150, centerY, 0);
