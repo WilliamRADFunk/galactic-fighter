@@ -48,7 +48,7 @@
 	</li>
 </ol>
 
-### Ateroids:
+### Asteroids:
 
 <ul>
 	<li>Each asteroid earns a hundred points when destroyed.</li>
@@ -65,7 +65,9 @@
 	<li>Like the player's ship, enemy ships have a variety of ship and weapon configuration based on color.</li>
 </ul>
 
-### End Game: When player is defeated, they're name is taken and posted along with their score on the leaderboard. The aliens will not stop until Earth is destroyed. They have an endless supply of vessels and will never tire. However, with every wave destroyed you give humanity a little longer to prepare for the inevitable invasion. 
+### End Game:
+
+When player is defeated, they're name is taken and posted along with their score on the leaderboard. The aliens will not stop until Earth is destroyed. They have an endless supply of vessels and will never tire. However, with every wave destroyed you give humanity a little longer to prepare for the inevitable invasion. 
 
 ## Purpose:
 
