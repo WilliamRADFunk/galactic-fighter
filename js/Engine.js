@@ -958,7 +958,6 @@ var GameWrapper = function() {
 			var ship = {x: player.position.x, y: player.position.y, width: player.size, height: player.size};
 			var enemy = {x: enemyShips[i].position.x, y: enemyShips[i].position.y, width: enemyShips[i].size, height: enemyShips[i].size}
 
-			console.log(ship.x, enemy.x, ship.y, enemy.y);
 			if ((ship.x + (ship.width * 0.1)) < (enemy.x + enemy.width)
 				&& (ship.x + ship.width - (ship.width * 0.1)) > enemy.x
 				&& (ship.y + (ship.height * 0.1)) < (enemy.y + enemy.height)
