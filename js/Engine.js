@@ -38,7 +38,7 @@ var GameWrapper = function() {
 	function handleKeys(e)
 	{
 		// Captures spacebar for Chrome and Firefox, respectively.
-		if(e.keyCode === 32 || e.which === 32)
+		if(!player.isDestroyed && (e.keyCode === 32 || e.which === 32))
 		{
 			if(recharge <= 0)
 			{
@@ -535,6 +535,177 @@ var GameWrapper = function() {
 				},
 				getShip: function()
 				{
+					return document.getElementById('enemy-ship-blue');
+				},
+				getSize: function()
+				{
+					return 50;
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [220, 20, 60, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: -2,
+						speed: 5,
+						strokeColor: [220, 20, 60, 0.8],
+					};
+				},
+			},
+			{
+				getMovement: function()
+				{
+					return [
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+					];
+				},
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-purple');
+				},
+				getSize: function()
+				{
+					return 50;
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [220, 20, 60, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: -2,
+						speed: 5,
+						strokeColor: [220, 20, 60, 0.8],
+					};
+				},
+			},
+			{
+				getMovement: function()
+				{
+					return [
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+					];
+				},
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-orange');
+				},
+				getSize: function()
+				{
+					return 50;
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [220, 20, 60, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: -2,
+						speed: 5,
+						strokeColor: [220, 20, 60, 0.8],
+					};
+				},
+			},
+			{
+				getMovement: function()
+				{
+					return [
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+					];
+				},
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
 					return document.getElementById('enemy-ship');
 				},
 				getSize: function()
@@ -706,9 +877,10 @@ var GameWrapper = function() {
 	Engine.createEnemies = function(num)
 	{
 		var startingY = 50;
+		var randomConfig = Math.floor(Math.random() * 4);
 		for(var i = 0; i < num; i++)
 		{
-			var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + 50, startingY + (i * 75), 0);
+			var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + 50, startingY + (i * 75), randomConfig);
 			enemyShips.push(enemyShip);
 			scene.add(enemyShip);
 		}

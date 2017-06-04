@@ -32,32 +32,65 @@ body
     position: relative;
 	width: 600px;
 }
-#enemy-ship
+/*
+* Images By Andrea Acosta Duarte:
+* http://www.n-somnium.com/home-sweet-home
+*/
+#enemy-ship,
+#enemy-ship-blue,
+#enemy-ship-purple,
+#enemy-ship-orange
 {
-    /*
-    * Image By jamiely:
-    * https://openclipart.org/detail/172793/spaceship-glider
-    */
-    height: 282;
+    height: 537;
+    left: -10000px;
     position: absolute;
-    left: -1000px;
-    width: 261;
+    width: 513;
     z-index: 3;
 }
+#enemy-ship-blue
+{
+    height: 509;
+    width: 637;
+}
+#enemy-ship-purple
+{
+    height: 516;
+    width: 510;
+}
+#enemy-ship-orange
+{
+    height: 513;
+    width: 674;
+}
+/*
+* Images By Andrea Acosta Duarte:
+* http://www.n-somnium.com/home-sweet-home
+*/
 #player-ship,
 #player-ship-blue,
 #player-ship-green,
 #player-ship-yellow
 {
-    /*
-    * Image By Andrea Acosta Duarte:
-    * http://www.n-somnium.com/home-sweet-home
-    */
 	height: 487px;
     position: absolute;
-    left: -1000px;
+    left: -10000px;
 	width: 563px;
     z-index: 3;
+}
+#player-ship-blue
+{
+    height: 487px;
+    width: 563px;
+}
+#player-ship-green
+{
+    height: 487px;
+    width: 563px;
+}
+#player-ship-yellow
+{
+    height: 487px;
+    width: 563px;
 }
 #power-up-null,
 #power-up-speed,
