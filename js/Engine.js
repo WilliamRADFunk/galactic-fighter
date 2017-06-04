@@ -38,7 +38,7 @@ var GameWrapper = function() {
 	function handleKeys(e)
 	{
 		// Captures spacebar for Chrome and Firefox, respectively.
-		if(e.keyCode === 32 || e.which === 32)
+		if(!player.isDestroyed && (e.keyCode === 32 || e.which === 32))
 		{
 			if(recharge <= 0)
 			{
@@ -422,7 +422,7 @@ var GameWrapper = function() {
 				},
 				getSpeed: function()
 				{
-					return 4;
+					return 2;
 				},
 				getWeapon: function()
 				{
@@ -430,7 +430,7 @@ var GameWrapper = function() {
 						color: [0, 100, 0, 0.8],
 						points: 1,
 						recharge: 20,
-						size: 6,
+						size: 8,
 						speed: 5,
 						strokeColor: [0, 100, 0, 0.8],
 					};
@@ -507,6 +507,165 @@ var GameWrapper = function() {
 						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+					];
+				},
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-blue');
+				},
+				getSize: function()
+				{
+					return 50;
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [220, 20, 60, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: -2,
+						speed: 5,
+						strokeColor: [220, 20, 60, 0.8],
+					};
+				},
+			},
+			{
+				getMovement: function()
+				{
+					return [
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+					];
+				},
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-purple');
+				},
+				getSize: function()
+				{
+					return 50;
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [220, 20, 60, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: -2,
+						speed: 5,
+						strokeColor: [220, 20, 60, 0.8],
+					};
+				},
+			},
+			{
+				getMovement: function()
+				{
+					return [
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+					];
+				},
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-orange');
+				},
+				getSize: function()
+				{
+					return 50;
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [220, 20, 60, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: -2,
+						speed: 5,
+						strokeColor: [220, 20, 60, 0.8],
+					};
+				},
+			},
+			{
+				getMovement: function()
+				{
+					return [
 						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
@@ -706,9 +865,10 @@ var GameWrapper = function() {
 	Engine.createEnemies = function(num)
 	{
 		var startingY = 50;
+		var randomConfig = Math.floor(Math.random() * 4);
 		for(var i = 0; i < num; i++)
 		{
-			var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + 50, startingY + (i * 75), 0);
+			var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width, startingY + (i * 75), randomConfig);
 			enemyShips.push(enemyShip);
 			scene.add(enemyShip);
 		}
@@ -719,10 +879,13 @@ var GameWrapper = function() {
 		{
 			var x = 0;
 			var y = 0;
-			if(enemyShips[i].currentMovement === undefined
-				|| enemyShips[i].currentMovement >= enemyShips[i].getMovement.length)
+			if(enemyShips[i].currentMovement === undefined)
 			{
 				enemyShips[i].currentMovement = 0;
+			}
+			else if(enemyShips[i].currentMovement >= enemyShips[i].getMovement.length)
+			{
+				enemyShips[i].currentMovement = 60;
 			}
 			switch(enemyShips[i].getMovement[enemyShips[i].currentMovement])
 			{
@@ -785,6 +948,32 @@ var GameWrapper = function() {
 					j++;
 					break;
 				}
+			}
+		}
+	}
+	Engine.enemySpaceshipCollisionHandler = function()
+	{
+		for(var i = 0, j = 0; i < enemyShips.length - j; i++)
+		{
+			var ship = {x: player.position.x, y: player.position.y, width: player.size, height: player.size};
+			var enemy = {x: enemyShips[i].position.x, y: enemyShips[i].position.y, width: enemyShips[i].size, height: enemyShips[i].size}
+
+			if ((ship.x + (ship.width * 0.1)) < (enemy.x + enemy.width)
+				&& (ship.x + ship.width - (ship.width * 0.1)) > enemy.x
+				&& (ship.y + (ship.height * 0.1)) < (enemy.y + enemy.height)
+				&& (ship.height + ship.y - (ship.height * 0.1)) > enemy.y
+			) {
+				Engine.makeExplosion(enemyShips[i]);
+				Engine.makeExplosion(player);
+				// Increase player's points
+				score.addPoints(enemyShips[i].points);
+				// Remove enemy ship
+				scene.remove(enemyShips[i]);
+				enemyShips.splice(i, 1);
+				j++;
+				// Remove the player
+				player.destroy();
+				break;
 			}
 		}
 	}
@@ -941,7 +1130,7 @@ var GameWrapper = function() {
 				asteroidLevel++;
 				asteroidDensity = asteroidLevel * 10;
 			}
-			if(score.getPoints() >= enemyLevel * 2000)
+			if(enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 2000))
 			{
 				enemyLevel++;
 				Engine.createEnemies(enemyLevel * 2);
@@ -966,6 +1155,8 @@ var GameWrapper = function() {
 				Engine.powerUpHandler();
 				// Handles collisions between enemy ships and player projectiles
 				Engine.enemyProjectileCollisionHandler();
+				// Handles collisions between player's ship and enemy ships
+				Engine.enemySpaceshipCollisionHandler();
 			}
 			else if(powerUp !== null)
 			{
