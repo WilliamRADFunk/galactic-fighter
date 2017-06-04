@@ -422,7 +422,7 @@ var GameWrapper = function() {
 				},
 				getSpeed: function()
 				{
-					return 4;
+					return 2;
 				},
 				getWeapon: function()
 				{
@@ -430,7 +430,7 @@ var GameWrapper = function() {
 						color: [0, 100, 0, 0.8],
 						points: 1,
 						recharge: 20,
-						size: 6,
+						size: 8,
 						speed: 5,
 						strokeColor: [0, 100, 0, 0.8],
 					};
