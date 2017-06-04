@@ -1,38 +1,38 @@
 /* 
-Galactic Fighter Engine v1.0
-Last Updated: 2017-May-20
+Galactic Fighter Engine v0.1.1
+Last Updated: 2017-June-04
 Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
 */
 
 // Wrapped game object
 var GameWrapper = function() {
 	// Internally global game variables.
+	var Engine = {};
 	var FPS = 60;
 	var start = null;
-	var context;
+	var asteroidDensity = 10;
+	var asteroidLevel = 0;
+	var asteroidSpeed = 2;
 	var centerX;
 	var centerY;
-	var Engine = {};
-	var mouseX = centerX;
-	var mouseY = centerY;
-	var mouseState = 0;
-	var asteroidDensity = 10;
-	var asteroidSpeed = 2;
-	var powerUp = null;
-	var asteroidLevel = 0;
+	var context;
 	var enemyLevel = 0;
-	var recharge = 0;
-	var scene;
-	var score;
-	var player;
-	var themeMusic;
 	var enemyProjectiles = [];
 	var enemyShips = [];
 	var engineParticles = [];
 	var explosions = [];
+	var mouseState = 0;
+	var mouseX = centerX;
+	var mouseY = centerY;
+	var player;
 	var playerProjectiles = [];
+	var powerUp = null;
+	var recharge = 0;
+	var scene;
+	var score;
 	var spaceDebris = [];
 	var stars = [];
+	var themeMusic;
 
 	// Receive emote command and perform its effect.
 	function handleKeys(e)
