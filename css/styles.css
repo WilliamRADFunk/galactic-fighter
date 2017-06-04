@@ -50,13 +50,13 @@ body
 #player-ship-yellow
 {
     /*
-    * Image By valeatory:
-    * https://openclipart.org/detail/193617/rocket
+    * Image By Andrea Acosta Duarte:
+    * http://www.n-somnium.com/home-sweet-home
     */
-	height: 188px;
+	height: 487px;
     position: absolute;
     left: -1000px;
-	width: 252px;
+	width: 563px;
     z-index: 3;
 }
 #power-up-null,

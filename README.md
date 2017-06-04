@@ -5,7 +5,7 @@
 
 ### Left mouse button has player's ship chase mouse pointer.
 
-### Space bar activates primary weapon. Note: <b><u>Each shot costs points</u></b>.
+### Space bar activates primary weapon. Note: _*Each shot costs points*_.
 
 ### Powerups alternate playership's weapon capabilities:
 
@@ -15,6 +15,7 @@
 			<li>Normal ship speed.</li>
 			<li>Normal projectile speed.</li>
 			<li>Normal projectile size.</li>
+			<li>Normal projectile recharge.</li>
 			<li>Half the scorepoint cost per shot.</li>
 		</ul>
 	</li>
