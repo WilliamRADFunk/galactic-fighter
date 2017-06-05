@@ -1,38 +1,285 @@
 /* 
-Galactic Fighter Engine v1.0
-Last Updated: 2017-May-20
+Galactic Fighter Engine v0.1.1
+Last Updated: 2017-June-04
 Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
 */
 
 // Wrapped game object
 var GameWrapper = function() {
 	// Internally global game variables.
+	var Engine = {};
 	var FPS = 60;
 	var start = null;
-	var context;
+	var asteroidDensity = 10;
+	var asteroidLevel = 0;
+	var asteroidSpeed = 2;
 	var centerX;
 	var centerY;
-	var Engine = {};
-	var mouseX = centerX;
-	var mouseY = centerY;
-	var mouseState = 0;
-	var asteroidDensity = 10;
-	var asteroidSpeed = 2;
-	var powerUp = null;
-	var asteroidLevel = 0;
+	var context;
 	var enemyLevel = 0;
-	var recharge = 0;
-	var scene;
-	var score;
-	var player;
-	var themeMusic;
 	var enemyProjectiles = [];
 	var enemyShips = [];
 	var engineParticles = [];
 	var explosions = [];
+	var mouseState = 0;
+	var mouseX = centerX;
+	var mouseY = centerY;
+	var player;
 	var playerProjectiles = [];
+	var powerUp = null;
+	var recharge = 0;
+	var scene;
+	var score;
 	var spaceDebris = [];
 	var stars = [];
+	var themeMusic;
+
+	var movementConfig = [
+		[
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
+
+		],
+		[
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
+		],
+		[
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
+		],
+		[
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
+		],
+		[
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+
+		],
+		[
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR'
+		],
+		[
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR'
+		],
+		[
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR'
+		]
+	];
 
 	// Receive emote command and perform its effect.
 	function handleKeys(e)
@@ -182,6 +429,145 @@ var GameWrapper = function() {
 					configurations[config].getSize()
 				);	
 			}
+		};
+	};
+	// Engine's Enemy Spaceship object.
+	Engine.EnemySpaceship = function(x, y, config)
+	{
+		var configurations = [
+			{
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship');
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [255, 20, 147, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: 2,
+						speed: -3,
+						strokeColor: [255, 20, 147, 0.8],
+					};
+				},
+			},
+			{
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-blue');
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [0, 255, 255, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: 2,
+						speed: -3,
+						strokeColor: [0, 255, 255, 0.8],
+					};
+				},
+			},
+			{
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-purple');
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [138, 43, 226, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: 2,
+						speed: -3,
+						strokeColor: [138, 43, 226, 0.8],
+					};
+				},
+			},
+			{
+				getPoints: function()
+				{
+					return 500;
+				},
+				getShip: function()
+				{
+					return document.getElementById('enemy-ship-orange');
+				},
+				getSpeed: function()
+				{
+					return 4;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [210, 105, 30, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: 2,
+						speed: -3,
+						strokeColor: [210, 105, 30, 0.8],
+					};
+				},
+			},
+		];
+		return {
+			applyMovementConfig: function(mConfig) {
+				this.movementConfig = mConfig;
+			},
+			getCurrentWeapon: function()
+			{
+				return configurations[config].getWeapon();
+			},
+			move: function(currX, currY)
+			{
+				if(!this.isDestroyed)
+				{
+					this.position.x = currX;
+					this.position.y = currY;
+				}
+			},
+			movementConfig: movementConfig[0],
+			points: configurations[config].getPoints(),
+			position: {
+				x: x,
+				y: y
+			},
+			render: function()
+			{
+				if(!this.isDestroyed)
+				{
+					var shipImg = configurations[config].getShip();
+					context.drawImage(shipImg, this.position.x, this.position.y, player.size, player.size);
+				}	
+			},
+			size: 50,
+			speed: configurations[config].getSpeed()
 		};
 	};
 	// Engine's Node object.
@@ -496,259 +882,6 @@ var GameWrapper = function() {
 			speed: configurations[config].getSpeed()
 		};
 	};
-	// Engine's Enemy Spaceship object.
-	Engine.EnemySpaceship = function(x, y, config)
-	{
-		var configurations = [
-			{
-				getMovement: function()
-				{
-					return [
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
-
-					];
-				},
-				getPoints: function()
-				{
-					return 500;
-				},
-				getShip: function()
-				{
-					return document.getElementById('enemy-ship-blue');
-				},
-				getSize: function()
-				{
-					return 50;
-				},
-				getSpeed: function()
-				{
-					return 4;
-				},
-				getWeapon: function()
-				{
-					return {
-						color: [220, 20, 60, 0.8],
-						points: 0.5,
-						recharge: 10,
-						size: -2,
-						speed: 5,
-						strokeColor: [220, 20, 60, 0.8],
-					};
-				},
-			},
-			{
-				getMovement: function()
-				{
-					return [
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
-
-					];
-				},
-				getPoints: function()
-				{
-					return 500;
-				},
-				getShip: function()
-				{
-					return document.getElementById('enemy-ship-purple');
-				},
-				getSize: function()
-				{
-					return 50;
-				},
-				getSpeed: function()
-				{
-					return 4;
-				},
-				getWeapon: function()
-				{
-					return {
-						color: [220, 20, 60, 0.8],
-						points: 0.5,
-						recharge: 10,
-						size: -2,
-						speed: 5,
-						strokeColor: [220, 20, 60, 0.8],
-					};
-				},
-			},
-			{
-				getMovement: function()
-				{
-					return [
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
-
-					];
-				},
-				getPoints: function()
-				{
-					return 500;
-				},
-				getShip: function()
-				{
-					return document.getElementById('enemy-ship-orange');
-				},
-				getSize: function()
-				{
-					return 50;
-				},
-				getSpeed: function()
-				{
-					return 4;
-				},
-				getWeapon: function()
-				{
-					return {
-						color: [220, 20, 60, 0.8],
-						points: 0.5,
-						recharge: 10,
-						size: -2,
-						speed: 5,
-						strokeColor: [220, 20, 60, 0.8],
-					};
-				},
-			},
-			{
-				getMovement: function()
-				{
-					return [
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-						'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
-
-					];
-				},
-				getPoints: function()
-				{
-					return 500;
-				},
-				getShip: function()
-				{
-					return document.getElementById('enemy-ship');
-				},
-				getSize: function()
-				{
-					return 50;
-				},
-				getSpeed: function()
-				{
-					return 4;
-				},
-				getWeapon: function()
-				{
-					return {
-						color: [220, 20, 60, 0.8],
-						points: 0.5,
-						recharge: 10,
-						size: -2,
-						speed: 5,
-						strokeColor: [220, 20, 60, 0.8],
-					};
-				},
-			},
-		];
-		return {
-			position: {
-				x: x,
-				y: y
-			},
-			size: configurations[config].getSize(),
-			getCurrentWeapon: function()
-			{
-				return configurations[config].getWeapon();
-			},
-			getMovement: configurations[config].getMovement(),
-			points: configurations[config].getPoints(),
-			move: function(currX, currY)
-			{
-				if(!this.isDestroyed)
-				{
-					this.position.x = currX;
-					this.position.y = currY;
-				}
-			},
-			render: function()
-			{
-				if(!this.isDestroyed)
-				{
-					var shipImg = configurations[config].getShip();
-					context.drawImage(shipImg, this.position.x, this.position.y, player.size, player.size);
-				}	
-			},
-			speed: configurations[config].getSpeed()
-		};
-	};
-
 	Engine.Scene = function()
 	{
 		var objects = [];
@@ -866,11 +999,16 @@ var GameWrapper = function() {
 	{
 		var startingY = 50;
 		var randomConfig = Math.floor(Math.random() * 4);
-		for(var i = 0; i < num; i++)
+		for(var i = 0; i < Math.floor(num / 7) + 1; i++)
 		{
-			var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width, startingY + (i * 75), randomConfig);
-			enemyShips.push(enemyShip);
-			scene.add(enemyShip);
+			if(i > 3) break; // Limit enemy on-screen count to 32
+			for(var j = 0; j < 8 && j < num; j++)
+			{
+				var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + (j * 60), randomConfig);
+				enemyShips.push(enemyShip);
+				scene.add(enemyShip);
+				enemyShip.applyMovementConfig(movementConfig[i]);
+			}
 		}
 	}
 	Engine.enemyMovementHandler = function()
@@ -883,11 +1021,20 @@ var GameWrapper = function() {
 			{
 				enemyShips[i].currentMovement = 0;
 			}
-			else if(enemyShips[i].currentMovement >= enemyShips[i].getMovement.length)
+			else if(enemyShips[i].currentMovement >= enemyShips[i].movementConfig.length)
 			{
-				enemyShips[i].currentMovement = 60;
+				var move = Math.floor(Math.random() * 2 + (movementConfig.length - 1));
+				if(Math.random() >= 0.8)
+				{
+					enemyShips[i].applyMovementConfig(movementConfig[move]);
+				}
+				else
+				{
+					enemyShips[i].applyMovementConfig(movementConfig[4]);
+				}
+				enemyShips[i].currentMovement = 0;
 			}
-			switch(enemyShips[i].getMovement[enemyShips[i].currentMovement])
+			switch(enemyShips[i].movementConfig[enemyShips[i].currentMovement])
 			{
 				case 'L':
 				{
@@ -899,13 +1046,37 @@ var GameWrapper = function() {
 					y--;
 					break;
 				}
+				case 'UL':
+				{
+					x--;
+					y--;
+					break;
+				}
 				case 'R':
 				{
 					x++;
 					break;
 				}
+				case 'UR':
+				{
+					x++;
+					y--;
+					break;
+				}
 				case 'D':
 				{
+					y++;
+					break;
+				}
+				case 'DL':
+				{
+					x--;
+					y++;
+					break;
+				}
+				case 'DR':
+				{
+					x++;
 					y++;
 					break;
 				}
@@ -914,8 +1085,38 @@ var GameWrapper = function() {
 					break;
 				}
 			}
-			enemyShips[i].move(enemyShips[i].position.x + x, enemyShips[i].position.y + y);
-			enemyShips[i].currentMovement++;
+			enemyShips[i].move(enemyShips[i].position.x + x + (x * (enemyLevel% 3)), enemyShips[i].position.y + y + (y * (enemyLevel % 3)));
+			enemyShips[i].currentMovement += 1 + (enemyLevel % 3);
+		}
+	}
+	Engine.shouldEnemyFire = function()
+	{
+		for(var i = 0; i < enemyShips.length; i++)
+		{
+			if(Math.random() >= 0.99)
+			{
+				/*
+				* Audio Clip By DKnight556
+				* http://soundbible.com/1949-Pew-Pew.html
+				*/
+				var pew = new Audio('assets/pew.wav');
+				pew.volume = 0.4;
+				pew.play();
+				var currentWeapon = enemyShips[i].getCurrentWeapon();
+				var bullet = new Engine.Orb(
+					enemyShips[i].position.x + 51,
+					enemyShips[i].position.y + 25,
+					currentWeapon.speed,
+					currentWeapon.size,
+					currentWeapon.color,
+					currentWeapon.strokeColor
+				);
+				// Player spends points per shot of weapon.
+				score.addPoints(-currentWeapon.points * 10);
+				// Add projectile to the scene.
+				enemyProjectiles.push(bullet);
+				scene.add(bullet);
+			}
 		}
 	}
 	Engine.enemyProjectileCollisionHandler = function()
@@ -1053,6 +1254,29 @@ var GameWrapper = function() {
 		explosions.push(explosionInner);
 		scene.add(explosionInner);
 	}
+	Engine.playerCollisionEnemyProjectileHandler = function()
+	{
+		for(var i = 0, j = 0; i < enemyProjectiles.length - j; i++)
+		{
+			var projectile = {x: enemyProjectiles[i].position.x, y: enemyProjectiles[i].position.y, width: enemyProjectiles[i].radius, height: enemyProjectiles[i].radius};
+			var ship = {x: player.position.x, y: player.position.y, width: player.size, height: player.size};
+
+			if (projectile.x < (ship.x + ship.width)
+				&& (projectile.x + projectile.width) > ship.x
+				&& projectile.y < (ship.y + ship.height)
+				&& (projectile.height + projectile.y) > ship.y
+			) {
+				Engine.makeExplosion(player);
+				// Remove projectile
+				scene.remove(enemyProjectiles[i]);
+				enemyProjectiles.splice(i, 1);
+				j++;
+				// Remove player
+				player.destroy();
+				break;
+			}
+		}
+	}
 	Engine.powerUpHandler = function()
 	{
 		if(powerUp === null && Math.random() > 0.995)
@@ -1102,6 +1326,16 @@ var GameWrapper = function() {
 				j++;
 			}
 		}
+		for(var i = 0, j = 0; i < enemyProjectiles.length - j; i++)
+		{
+			moveProjectiles(enemyProjectiles[i]);
+			if(enemyProjectiles[i].position.x <= - 5)
+			{
+				scene.remove(enemyProjectiles[i]);
+				enemyProjectiles.splice(i, 1);
+				j++;
+			}
+		}
 	}
 	Engine.starMovementHandler = function()
 	{
@@ -1130,7 +1364,7 @@ var GameWrapper = function() {
 				asteroidLevel++;
 				asteroidDensity = asteroidLevel * 10;
 			}
-			if(enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 2000))
+			if(enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 200))
 			{
 				enemyLevel++;
 				Engine.createEnemies(enemyLevel * 2);
@@ -1157,6 +1391,10 @@ var GameWrapper = function() {
 				Engine.enemyProjectileCollisionHandler();
 				// Handles collisions between player's ship and enemy ships
 				Engine.enemySpaceshipCollisionHandler();
+				// Decides when an enemy ship will fire its weapons
+				Engine.shouldEnemyFire();
+				// Handles collision between player and enemy projectiles
+				Engine.playerCollisionEnemyProjectileHandler();
 			}
 			else if(powerUp !== null)
 			{

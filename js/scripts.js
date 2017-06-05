@@ -1,6 +1,6 @@
 /* 
-Galactic Fighter Engine v1.0
-Last Updated: 2017-May-20
+Galactic Fighter Engine v0.1.1
+Last Updated: 2017-June-04
 Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
 */
 var Game = {};
