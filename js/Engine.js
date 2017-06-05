@@ -1436,13 +1436,13 @@ var GameWrapper = function() {
 			* Audio Clip By Kritex
 			* https://www.looperman.com/loops/detail/70534/adventure-club-drop-loop-by-kritex-free-140bpm-dubstep-wobble-bass-loop
 			*/
-			// var themeMusic = new Audio('assets/theme-music.wav');
-			// themeMusic.addEventListener('ended', function() {
-			// 	this.currentTime = 0;
-			// 	this.play();
-			// }, false);
-			// themeMusic.volume = 0.6;
-			// themeMusic.play();
+			var themeMusic = new Audio('assets/theme-music.wav');
+			themeMusic.addEventListener('ended', function() {
+				this.currentTime = 0;
+				this.play();
+			}, false);
+			themeMusic.volume = 0.6;
+			themeMusic.play();
 			
 			// Create the player
 			player = new Engine.Spaceship(centerX - 150, centerY, 0);
