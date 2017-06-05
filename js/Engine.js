@@ -34,7 +34,7 @@ var GameWrapper = function() {
 	var stars = [];
 	var themeMusic;
 
-	var movementConfig = [
+	var globalMovementConfig = [
 		[
 			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
@@ -552,7 +552,7 @@ var GameWrapper = function() {
 					this.position.y = currY;
 				}
 			},
-			movementConfig: movementConfig[0],
+			movementConfig: globalMovementConfig[0],
 			points: configurations[config].getPoints(),
 			position: {
 				x: x,
@@ -1007,7 +1007,7 @@ var GameWrapper = function() {
 				var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + (j * 60), randomConfig);
 				enemyShips.push(enemyShip);
 				scene.add(enemyShip);
-				enemyShip.applyMovementConfig(movementConfig[i]);
+				enemyShip.applyMovementConfig(globalMovementConfig[i]);
 			}
 		}
 	}
@@ -1023,69 +1023,71 @@ var GameWrapper = function() {
 			}
 			else if(enemyShips[i].currentMovement >= enemyShips[i].movementConfig.length)
 			{
-				var move = Math.floor(Math.random() * 2 + (movementConfig.length - 1));
+				var move = Math.floor(Math.random() * 4 + 4);
 				if(Math.random() >= 0.8)
 				{
-					enemyShips[i].applyMovementConfig(movementConfig[move]);
+					enemyShips[i].applyMovementConfig(globalMovementConfig[move]);
 				}
 				else
 				{
-					enemyShips[i].applyMovementConfig(movementConfig[4]);
+					enemyShips[i].applyMovementConfig(globalMovementConfig[4]);
 				}
 				enemyShips[i].currentMovement = 0;
-			}
-			switch(enemyShips[i].movementConfig[enemyShips[i].currentMovement])
+			} else if(enemyShips[i].currentMovement && enemyShips[i].movementConfig[enemyShips[i].currentMovement])
 			{
-				case 'L':
+				switch(enemyShips[i].movementConfig[enemyShips[i].currentMovement])
 				{
-					x--;
-					break;
-				}
-				case 'U':
-				{
-					y--;
-					break;
-				}
-				case 'UL':
-				{
-					x--;
-					y--;
-					break;
-				}
-				case 'R':
-				{
-					x++;
-					break;
-				}
-				case 'UR':
-				{
-					x++;
-					y--;
-					break;
-				}
-				case 'D':
-				{
-					y++;
-					break;
-				}
-				case 'DL':
-				{
-					x--;
-					y++;
-					break;
-				}
-				case 'DR':
-				{
-					x++;
-					y++;
-					break;
-				}
-				default:
-				{
-					break;
+					case 'L':
+					{
+						x--;
+						break;
+					}
+					case 'U':
+					{
+						y--;
+						break;
+					}
+					case 'UL':
+					{
+						x--;
+						y--;
+						break;
+					}
+					case 'R':
+					{
+						x++;
+						break;
+					}
+					case 'UR':
+					{
+						x++;
+						y--;
+						break;
+					}
+					case 'D':
+					{
+						y++;
+						break;
+					}
+					case 'DL':
+					{
+						x--;
+						y++;
+						break;
+					}
+					case 'DR':
+					{
+						x++;
+						y++;
+						break;
+					}
+					default:
+					{
+						break;
+					}
 				}
 			}
-			enemyShips[i].move(enemyShips[i].position.x + x + (x * (enemyLevel% 3)), enemyShips[i].position.y + y + (y * (enemyLevel % 3)));
+			enemyShips[i].move(enemyShips[i].position.x + x + (x * (enemyLevel % 3)), enemyShips[i].position.y + y + (y * (enemyLevel % 3)));
 			enemyShips[i].currentMovement += 1 + (enemyLevel % 3);
 		}
 	}
@@ -1364,7 +1366,7 @@ var GameWrapper = function() {
 				asteroidLevel++;
 				asteroidDensity = asteroidLevel * 10;
 			}
-			if(enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 200))
+			if(enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 2000))
 			{
 				enemyLevel++;
 				Engine.createEnemies(enemyLevel * 2);
