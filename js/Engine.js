@@ -21,6 +21,7 @@ var GameWrapper = function() {
 	var enemyShips = [];
 	var engineParticles = [];
 	var explosions = [];
+	var bannerText = null;
 	var mouseState = 0;
 	var mouseX = centerX;
 	var mouseY = centerY;
@@ -857,6 +858,8 @@ var GameWrapper = function() {
 			destroy: function()
 			{
 				this.isDestroyed = true;
+				bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over');
+				scene.add(bannerText);
 			},
 			getCurrentWeapon: function()
 			{
@@ -908,6 +911,8 @@ var GameWrapper = function() {
 			}
 		};
 	};
+
+	// Functions
 	Engine.asteroidMovementHandler = function()
 	{
 		for(var i = 0, j = 0; i < spaceDebris.length - j; i++)
@@ -993,6 +998,25 @@ var GameWrapper = function() {
 				j++;
 				break;
 			}
+		}
+	}
+	Engine.bannerTextFadeHandler = function()
+	{
+		if(bannerText.colorA > 0 && bannerText.colorA <= 0.7 && bannerText.isBlooming !== false)
+		{
+			bannerText.fade(-0.02);
+			bannerText.isBlooming = true;
+		}
+		else if(bannerText.colorA > 0 || bannerText.colorA > 0.7)
+		{
+			bannerText.isBlooming = false;
+			bannerText.fade(0.01);
+		}
+		else
+		{
+			// Remove level text as it fades away
+			scene.remove(bannerText);
+			bannerText = null;
 		}
 	}
 	Engine.createEnemies = function(num)
@@ -1089,36 +1113,6 @@ var GameWrapper = function() {
 			}
 			enemyShips[i].move(enemyShips[i].position.x + x + (x * (enemyLevel % 3)), enemyShips[i].position.y + y + (y * (enemyLevel % 3)));
 			enemyShips[i].currentMovement += 1 + (enemyLevel % 3);
-		}
-	}
-	Engine.shouldEnemyFire = function()
-	{
-		for(var i = 0; i < enemyShips.length; i++)
-		{
-			if(Math.random() >= 0.99)
-			{
-				/*
-				* Audio Clip By DKnight556
-				* http://soundbible.com/1949-Pew-Pew.html
-				*/
-				var pew = new Audio('assets/pew.wav');
-				pew.volume = 0.4;
-				pew.play();
-				var currentWeapon = enemyShips[i].getCurrentWeapon();
-				var bullet = new Engine.Orb(
-					enemyShips[i].position.x + 51,
-					enemyShips[i].position.y + 25,
-					currentWeapon.speed,
-					currentWeapon.size,
-					currentWeapon.color,
-					currentWeapon.strokeColor
-				);
-				// Player spends points per shot of weapon.
-				score.addPoints(-currentWeapon.points * 10);
-				// Add projectile to the scene.
-				enemyProjectiles.push(bullet);
-				scene.add(bullet);
-			}
 		}
 	}
 	Engine.enemyProjectileCollisionHandler = function()
@@ -1339,6 +1333,36 @@ var GameWrapper = function() {
 			}
 		}
 	}
+	Engine.shouldEnemyFire = function()
+	{
+		for(var i = 0; i < enemyShips.length; i++)
+		{
+			if(Math.random() >= 0.99)
+			{
+				/*
+				* Audio Clip By DKnight556
+				* http://soundbible.com/1949-Pew-Pew.html
+				*/
+				var pew = new Audio('assets/pew.wav');
+				pew.volume = 0.4;
+				pew.play();
+				var currentWeapon = enemyShips[i].getCurrentWeapon();
+				var bullet = new Engine.Orb(
+					enemyShips[i].position.x + 51,
+					enemyShips[i].position.y + 25,
+					currentWeapon.speed,
+					currentWeapon.size,
+					currentWeapon.color,
+					currentWeapon.strokeColor
+				);
+				// Player spends points per shot of weapon.
+				score.addPoints(-currentWeapon.points * 10);
+				// Add projectile to the scene.
+				enemyProjectiles.push(bullet);
+				scene.add(bullet);
+			}
+		}
+	}
 	Engine.starMovementHandler = function()
 	{
 		for(var i = 0; i < stars.length; i++)
@@ -1352,6 +1376,32 @@ var GameWrapper = function() {
 				);
 			}
 		}
+	}
+	Engine.TriggerText = function(x, y, txt)
+	{
+		return {
+			colorR: 211,
+			colorG: 211,
+			colorB: 211,
+			colorA: 0.01,
+			fade: function(rate)
+			{
+				this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
+				this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
+			},
+			position:
+			{
+				x: x,
+				y: y
+			},
+			render: function()
+			{
+				context.fillStyle = 'rgba(' + this.colorR + ', ' + this.colorG + ', ' + this.colorB + ', ' + this.colorA + ')';
+				context.font = '72px serif';
+				context.textAlign = 'center';
+				context.fillText(txt, this.position.x, this.position.y);
+			}
+		};
 	}
 	// Engine's update cycle
 	Engine.update = function(timestamp)
@@ -1369,19 +1419,19 @@ var GameWrapper = function() {
 			if(enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 2000))
 			{
 				enemyLevel++;
+				bannerText = Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Level: ' + enemyLevel);
+				scene.add(bannerText);
 				Engine.createEnemies(enemyLevel * 2);
 			}
 			context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
-			if(mouseState === 1 && !player.isDestroyed)
+			if(mouseState === 1 && !player.isDestroyed && bannerText === null)
 			{
 				movePlayer();
 			}
 			// Move the stars a their speeds.
 			Engine.starMovementHandler();
-			// Move, and remove player projectiles as they leave the screen.
-			Engine.projectileMovementHandler();
 			
-			if(!player.isDestroyed)
+			if(!player.isDestroyed && bannerText === null)
 			{
 				// Checks to see if ship was struck by an asteroid
 				Engine.asteroidShipCollisionHandler();
@@ -1403,12 +1453,22 @@ var GameWrapper = function() {
 				scene.remove(powerUp);
 				powerUp = null;
 			}
-			// Moves enemies according to their individual configurations
-			Engine.enemyMovementHandler();
+
+			if(bannerText === null)
+			{
+				// Move, and remove player projectiles as they leave the screen.
+				Engine.projectileMovementHandler();
+				// Moves enemies according to their individual configurations
+				Engine.enemyMovementHandler();
+				// Move, remove, and create (at random) asteroids as they leave the screen.
+				Engine.asteroidMovementHandler();
+			}
+			else
+			{
+				Engine.bannerTextFadeHandler();
+			}
 			// Handles movement and fading of explosions
 			Engine.explosionHandler();
-			// Move, remove, and create (at random) asteroids as they leave the screen.
-			Engine.asteroidMovementHandler();
 			// Move, remove, and create player engine exhaust particles.
 			Engine.exhaustParticleHandler();
 			
