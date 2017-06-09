@@ -1012,6 +1012,12 @@ var GameWrapper = function() {
 			bannerText.isBlooming = false;
 			bannerText.fade(0.01);
 		}
+		// Game Over scenario
+		else if(player.isDestroyed)
+		{
+			bannerText.fade(-0.02);
+			bannerText.isBlooming = true;
+		}
 		else
 		{
 			// Remove level text as it fades away
@@ -1454,7 +1460,7 @@ var GameWrapper = function() {
 				powerUp = null;
 			}
 
-			if(bannerText === null)
+			if(bannerText === null || player.isDestroyed)
 			{
 				// Move, and remove player projectiles as they leave the screen.
 				Engine.projectileMovementHandler();
@@ -1463,7 +1469,8 @@ var GameWrapper = function() {
 				// Move, remove, and create (at random) asteroids as they leave the screen.
 				Engine.asteroidMovementHandler();
 			}
-			else
+			
+			if(bannerText !== null)
 			{
 				Engine.bannerTextFadeHandler();
 			}
