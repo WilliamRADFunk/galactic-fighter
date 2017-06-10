@@ -10,7 +10,7 @@ var GameWrapper = function() {
 	var Engine = {};
 	var FPS = 60;
 	var start = null;
-	var acceptableEarthImpacts = 3;
+	var acceptableEarthImpacts = 10;
 	var asteroidDensity = 5;
 	var asteroidLevel = 0;
 	var asteroidSpeed = 2;
@@ -19,6 +19,7 @@ var GameWrapper = function() {
 	var centerY;
 	var context;
 	var currentEarthImpacts = 0;
+	var earthImpacts = [];
 	var enemyLevel = 0;
 	var enemyProjectiles = [];
 	var enemyShips = [];
@@ -81,6 +82,8 @@ var GameWrapper = function() {
 	var mouseX = centerX;
 	var mouseY = centerY;
 	var player;
+	var playerLives = [];
+	var playerRemainingLives = 3;
 	var playerProjectiles = [];
 	var powerUp = null;
 	var recharge = 0;
@@ -89,6 +92,7 @@ var GameWrapper = function() {
 	var spaceDebris = [];
 	var stars = [];
 	var themeMusic;
+	var waitUntilRevive = 0;
 
 	var globalMovementConfig = [
 		[
@@ -587,6 +591,26 @@ var GameWrapper = function() {
 	Engine.Asteroid = function(x, y, config)
 	{
 		var configurations = [
+			// The display asteroid to show remaining earth impacts
+			{
+				getAsteroid: function()
+				{
+					return document.getElementById('asteroid');
+				},
+				getPoints: function()
+				{
+					return 0;
+				},
+				getSize: function()
+				{
+					return 10;
+				},
+				getSpeed: function()
+				{
+					return 0;
+				},
+			},
+			// Actual asteroids
 			{
 				getAsteroid: function()
 				{
@@ -771,7 +795,7 @@ var GameWrapper = function() {
 				if(!this.isDestroyed)
 				{
 					var shipImg = configurations[config].getShip();
-					context.drawImage(shipImg, this.position.x, this.position.y, player.size, player.size);
+					context.drawImage(shipImg, this.position.x, this.position.y, this.size, this.size);
 				}	
 			},
 			size: 50,
@@ -890,7 +914,7 @@ var GameWrapper = function() {
 			speed: configurations[config].getSpeed(),
 			getEffect: function()
 			{
-				return config;
+				return config + 1;
 			},
 			move: function(currX, currY)
 			{
@@ -955,6 +979,33 @@ var GameWrapper = function() {
 	Engine.Spaceship = function(x, y, config)
 	{
 		var configurations = [
+			// For display purposes only
+			{
+				getShip: function()
+				{
+					return document.getElementById('player-ship-display');
+				},
+				getSize: function()
+				{
+					return 20;
+				},
+				getSpeed: function()
+				{
+					return 0;
+				},
+				getWeapon: function()
+				{
+					return {
+						color: [220, 20, 60, 0.8],
+						points: 0.5,
+						recharge: 10,
+						size: 0,
+						speed: 5,
+						strokeColor: [220, 20, 60, 0.8],
+					};
+				},
+			},
+			// Actual player ship configs.
 			{
 				getShip: function()
 				{
@@ -1065,8 +1116,19 @@ var GameWrapper = function() {
 			destroy: function()
 			{
 				this.isDestroyed = true;
-				bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over');
-				scene.add(bannerText);
+				playerRemainingLives--;
+				scene.remove(playerLives[playerLives.length - 1]);
+				playerLives[playerLives.length - 1] = null;
+				playerLives.length = playerLives.length - 1;
+				if(playerRemainingLives > 0)
+				{
+					waitUntilRevive = 300;
+				}
+				else
+				{
+					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over');
+					scene.add(bannerText);
+				}
 			},
 			getCurrentWeapon: function()
 			{
@@ -1081,12 +1143,18 @@ var GameWrapper = function() {
 					this.position.y = currY;
 				}
 			},
+			regenerate: function()
+			{
+				this.isDestroyed = false;
+				this.move(centerX - 150, centerY);
+				config = 1;
+			},
 			render: function()
 			{
 				if(!this.isDestroyed)
 				{
 					var shipImg = configurations[config].getShip();
-					context.drawImage(shipImg, this.position.x, this.position.y, player.size, player.size);
+					context.drawImage(shipImg, this.position.x, this.position.y, this.size, this.size);
 				}	
 			},
 			speed: configurations[config].getSpeed()
@@ -1132,6 +1200,9 @@ var GameWrapper = function() {
 					// Player loses points for missing asteroid
 					score.addPoints(-spaceDebris[i].points);
 					currentEarthImpacts++;
+					scene.remove(earthImpacts[earthImpacts.length - 1]);
+					earthImpacts[earthImpacts.length - 1] = null;
+					earthImpacts.length = earthImpacts.length - 1;
 				}
 				// Remove asteroid as it leaves screen
 				scene.remove(spaceDebris[i]);
@@ -1139,12 +1210,12 @@ var GameWrapper = function() {
 				j++;
 			}
 		}
-		if(spaceDebris.length < asteroidDensity && Math.random() > 0.98)
+		if(!player.isDestroyed && spaceDebris.length < asteroidDensity && Math.random() > 0.98)
 		{
 			var asteroid = new Engine.Asteroid(
 				Engine.canvas.width + 50,
 				Math.floor(Math.random() * (Engine.canvas.height - 60) + 30),
-				0
+				1
 			);
 			spaceDebris.push(asteroid);
 			scene.add(asteroid);
@@ -1232,6 +1303,27 @@ var GameWrapper = function() {
 			scene.remove(bannerText);
 			bannerText = null;
 		}
+	}
+	Engine.DisplayText = function(x, y, txt)
+	{
+		return {
+			colorR: 230,
+			colorG: 190,
+			colorB: 138,
+			colorA: 1,
+			position:
+			{
+				x: x,
+				y: y
+			},
+			render: function()
+			{
+				context.fillStyle = 'rgba(' + this.colorR + ', ' + this.colorG + ', ' + this.colorB + ', ' + this.colorA + ')';
+				context.font = '12px serif';
+				context.textAlign = 'center';
+				context.fillText(txt, this.position.x, this.position.y);
+			}
+		};
 	}
 	Engine.createEnemies = function(num)
 	{
@@ -1644,12 +1736,21 @@ var GameWrapper = function() {
 		
 		if(progress >= (1000/FPS))
 		{
+			console.log(progress);
+			if(waitUntilRevive > 0)
+			{
+				waitUntilRevive--;
+			}
+			else if(player.isDestroyed && playerRemainingLives > 0 && waitUntilRevive <= 0)
+			{
+				player.regenerate();
+			}
 			if(score.getPoints() >= asteroidLevel * 5000)
 			{
 				asteroidLevel++;
 				asteroidDensity = asteroidLevel * 5;
 			}
-			if(enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 1000))
+			if(!player.isDestroyed && enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 1000))
 			{
 				enemyLevel++;
 				bannerText = Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Level: ' + enemyLevel);
@@ -1737,18 +1838,37 @@ var GameWrapper = function() {
 			* Audio Clip By Kritex
 			* https://www.looperman.com/loops/detail/70534/adventure-club-drop-loop-by-kritex-free-140bpm-dubstep-wobble-bass-loop
 			*/
-			var themeMusic = new Audio('assets/theme-music.wav');
-			themeMusic.addEventListener('ended', function() {
-				this.currentTime = 0;
-				this.play();
-			}, false);
-			themeMusic.volume = 0.6;
-			themeMusic.play();
+			// var themeMusic = new Audio('assets/theme-music.wav');
+			// themeMusic.addEventListener('ended', function() {
+			// 	this.currentTime = 0;
+			// 	this.play();
+			// }, false);
+			// themeMusic.volume = 0.6;
+			// themeMusic.play();
 			
 			// Create the player
-			player = new Engine.Spaceship(centerX - 150, centerY, 0);
+			player = new Engine.Spaceship(centerX - 150, centerY, 1);
 			scene = new Engine.Scene();
 			scene.add(player);
+
+			// Create Display
+			for(var i = 0, j = 0; i < acceptableEarthImpacts; i++, j++)
+			{
+				if(j === 5) j = 0;
+				var asteroidDisplayElem = new Engine.Asteroid((j * 20) + 20, (Math.floor(i / 5) + 1) * 25, 0);
+				earthImpacts.push(asteroidDisplayElem);
+				scene.add(asteroidDisplayElem);
+			}
+
+			// var displayText = new Engine.DisplayText(25, 20, 'Remaining Collisions');
+			// scene.add(displayText);
+
+			for(var i = 0; i < playerRemainingLives; i++)
+			{
+				var playerDisplayElem = new Engine.Spaceship(Engine.canvas.width - 40 - (i * 25), (Math.floor(i / 5) + 1) * 30, 0);
+				playerLives.push(playerDisplayElem);
+				scene.add(playerDisplayElem);
+			}
 
 			// Create the stars that will give the illusion of movement.
 			for(var i = 0; i < 20; i++)
