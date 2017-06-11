@@ -844,7 +844,7 @@ var GameWrapper = function() {
 			}
 		};
 	};
-	// Engine's Asteroid object.
+	// Engine's Powerup object.
 	Engine.PowerUp = function(x, y, config)
 	{
 		var configurations = [
@@ -1125,16 +1125,35 @@ var GameWrapper = function() {
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'Earth is dead!');
 					scene.add(bannerText);
 					// Engine.sendScore('WRF');
+					themeMusic.pause();
+					/*
+					* Audio Clip By Mike Koenig
+					* http://soundbible.com/1885-Martian-Death-Ray.html
+					*/
+					var gameOver = new Audio('assets/game-over.wav');
+					gameOver.volume = 0.4;
+					gameOver.play();
+
 				}
-				if(playerRemainingLives > 0)
+				else if(playerRemainingLives > 0)
 				{
-					waitUntilRevive = 300;
+					waitUntilRevive = 360;
+					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'You Died!', 'You have ' + playerRemainingLives + ' lives left');
+					scene.add(bannerText);
 				}
 				else
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'You Died!');
 					scene.add(bannerText);
 					// Engine.sendScore('WRF');
+					themeMusic.pause();
+					/*
+					* Audio Clip By Mike Koenig
+					* http://soundbible.com/1885-Martian-Death-Ray.html
+					*/
+					var gameOver = new Audio('assets/game-over.wav');
+					gameOver.volume = 0.4;
+					gameOver.play();
 				}
 			},
 			getCurrentWeapon: function()
@@ -1210,6 +1229,13 @@ var GameWrapper = function() {
 					scene.remove(earthImpacts[earthImpacts.length - 1]);
 					earthImpacts[earthImpacts.length - 1] = null;
 					earthImpacts.length = earthImpacts.length - 1;
+					/*
+					* Audio Clip By Mike Koenig
+					* http://soundbible.com/287-Industrial-Alarm.html
+					*/
+					var missedAsteroid = new Audio('assets/missed-asteroid.wav');
+					missedAsteroid.volume = 0.4;
+					missedAsteroid.play();
 				}
 				// Remove asteroid as it leaves screen
 				scene.remove(spaceDebris[i]);
@@ -1377,6 +1403,15 @@ var GameWrapper = function() {
 				}
 			}
 		}
+		/*
+		* Audio Clip By KevanGC
+		* http://soundbible.com/1753-Alien-Siren.html
+		*/
+		var aliensArrive = new Audio('assets/aliens-arrive.wav');
+		aliensArrive.currentTime = 4;
+		aliensArrive.volume = 0.3;
+		aliensArrive.currentTime = 4;
+		aliensArrive.play();
 	}
 	Engine.enemyMovementHandler = function()
 	{
@@ -1392,7 +1427,7 @@ var GameWrapper = function() {
 			{
 				// Randomly selects between the two special movement types available to that enemy configuration.
 				var move = Math.floor(Math.random() * 2 + enemyShips[i].getConfig() + 5);
-				if(Math.random() >= 0.8)
+				if(Math.random() >= 0.8 && waitUntilRevive > 0)
 				{
 					enemyShips[i].applyMovementConfig(globalMovementConfig[move]);
 				}
@@ -1672,6 +1707,13 @@ var GameWrapper = function() {
 				player = new Engine.Spaceship(player.position.x, player.position.y, powerUp.getEffect());
 				scene.add(player);
 				powerUp = null;
+				/*
+				* Audio Clip By Brandino480
+				* http://soundbible.com/1858-Metroid-Door.html
+				*/
+				var powerupSound = new Audio('assets/power-up.wav');
+				powerupSound.volume = 0.7;
+				powerupSound.play();
 			}
 			else
 			{
@@ -1917,12 +1959,12 @@ var GameWrapper = function() {
 			* Audio Clip By Kritex
 			* https://www.looperman.com/loops/detail/70534/adventure-club-drop-loop-by-kritex-free-140bpm-dubstep-wobble-bass-loop
 			*/
-			var themeMusic = new Audio('assets/theme-music.wav');
+			themeMusic = new Audio('assets/theme-music.wav');
 			themeMusic.addEventListener('ended', function() {
 				this.currentTime = 0;
 				this.play();
 			}, false);
-			themeMusic.volume = 0.6;
+			themeMusic.volume = 0.1;
 			themeMusic.play();
 			
 			// Create the player
