@@ -1518,10 +1518,22 @@ var GameWrapper = function() {
 						// Increase player's points
 						score.addPoints(enemyShips[i].points);
 					}
-					// Remove enemy ship
-					scene.remove(enemyShips[i]);
-					enemyShips.splice(i, 1);
-					j++;
+
+					var newConfig = enemyShips[i].getConfig() - 1;
+					if(newConfig < 0)
+					{
+						// Remove enemy ship
+						scene.remove(enemyShips[i]);
+						enemyShips.splice(i, 1);
+						j++;
+					}
+					else
+					{
+						// Reduce enemy ship
+						scene.remove(enemyShips[i]);
+						enemyShips[i] = new Engine.EnemySpaceship(enemyShips[i].position.x, enemyShips[i].position.y, newConfig);
+						scene.add(enemyShips[i]);
+					}
 					break;
 				}
 			}
