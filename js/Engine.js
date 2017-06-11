@@ -1332,7 +1332,7 @@ var GameWrapper = function() {
 	}
 	Engine.createEnemies = function(num)
 	{
-		var startingY = 50;
+		var startingY = Engine.canvas.height / 2;
 		var configCap = [
 			Math.ceil(levelConfig[enemyLevel][0] * 0.01 * num),
 			Math.ceil(levelConfig[enemyLevel][1] * 0.01 * num),
@@ -1343,7 +1343,8 @@ var GameWrapper = function() {
 		for(var i = 0; i < Math.floor(num / 7) + 1; i++)
 		{
 			if(i > 3) break; // Limit enemy on-screen count to 32
-			for(var j = 0; j < 8 && j < num; j++)
+			var mod = 1;
+			for(var j = 0; j < 8 && (i * 8 + j) < num; j++)
 			{
 				if(enemyLevel < levelConfig.length)
 				{
@@ -1354,11 +1355,20 @@ var GameWrapper = function() {
 						var randomConfig = Math.floor(Math.random() * 4);
 						if(configCount[randomConfig] < configCap[randomConfig] || backupCounter > 10)
 						{
-							var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + (j * 60), randomConfig);
+							var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + mod, randomConfig);
 							enemyShips.push(enemyShip);
 							scene.add(enemyShip);
 							enemyShip.applyMovementConfig(globalMovementConfig[i]);
 							configCount[randomConfig]++;
+							// Starts aliens out in the center and populates outward from there.
+							if(mod >= 0)
+							{
+								mod = (mod + 60) * -1;
+							}
+							else
+							{
+								mod *= -1;
+							}
 							break;
 						}
 					} while(true);
@@ -1760,12 +1770,12 @@ var GameWrapper = function() {
 				asteroidLevel++;
 				asteroidDensity = asteroidLevel * 5;
 			}
-			if(!player.isDestroyed && enemyShips.length <= 0 && score.getPoints() >= enemyLevel * (enemyLevel * 1000))
+			if(!player.isDestroyed && enemyShips.length <= 0 && score.getPoints() >= enemyLevel * 1000)
 			{
 				enemyLevel++;
 				bannerText = Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Level: ' + enemyLevel);
 				scene.add(bannerText);
-				Engine.createEnemies(enemyLevel * 2);
+				Engine.createEnemies(enemyLevel + 1);
 			}
 			context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
 			if(mouseState === 1 && !player.isDestroyed && bannerText === null)
