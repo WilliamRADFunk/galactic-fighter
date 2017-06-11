@@ -1120,13 +1120,18 @@ var GameWrapper = function() {
 				scene.remove(playerLives[playerLives.length - 1]);
 				playerLives[playerLives.length - 1] = null;
 				playerLives.length = playerLives.length - 1;
+				if(currentEarthImpacts >= acceptableEarthImpacts)
+				{
+					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'Earth is dead!');
+					scene.add(bannerText);
+				}
 				if(playerRemainingLives > 0)
 				{
 					waitUntilRevive = 300;
 				}
 				else
 				{
-					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over');
+					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'You Died!');
 					scene.add(bannerText);
 				}
 			},
@@ -1342,10 +1347,12 @@ var GameWrapper = function() {
 			{
 				if(enemyLevel < levelConfig.length)
 				{
+					var backupCounter = 0;
 					do
 					{
+						backupCounter++;
 						var randomConfig = Math.floor(Math.random() * 4);
-						if(configCount[randomConfig] < configCap[randomConfig])
+						if(configCount[randomConfig] < configCap[randomConfig] || backupCounter > 10)
 						{
 							var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + (j * 60), randomConfig);
 							enemyShips.push(enemyShip);
@@ -1702,7 +1709,7 @@ var GameWrapper = function() {
 			}
 		}
 	}
-	Engine.TriggerText = function(x, y, txt)
+	Engine.TriggerText = function(x, y, txt1, txt2=null)
 	{
 		return {
 			colorR: 211,
@@ -1724,7 +1731,11 @@ var GameWrapper = function() {
 				context.fillStyle = 'rgba(' + this.colorR + ', ' + this.colorG + ', ' + this.colorB + ', ' + this.colorA + ')';
 				context.font = '72px serif';
 				context.textAlign = 'center';
-				context.fillText(txt, this.position.x, this.position.y);
+				context.fillText(txt1, this.position.x, this.position.y);
+				if(null !== txt2)
+				{
+					context.fillText(txt2, this.position.x, this.position.y + 70);
+				}
 			}
 		};
 	}
@@ -1736,7 +1747,6 @@ var GameWrapper = function() {
 		
 		if(progress >= (1000/FPS))
 		{
-			console.log(progress);
 			if(waitUntilRevive > 0)
 			{
 				waitUntilRevive--;
@@ -1807,7 +1817,7 @@ var GameWrapper = function() {
 			// Move, remove, and create player engine exhaust particles.
 			Engine.exhaustParticleHandler();
 			// Makes sure player doesn't let more than acceptable number of asteroids passed.
-			if(currentEarthImpacts >= acceptableEarthImpacts)
+			if(!player.isDestroyed && currentEarthImpacts >= acceptableEarthImpacts)
 			{
 				player.destroy();
 			}
@@ -1838,13 +1848,13 @@ var GameWrapper = function() {
 			* Audio Clip By Kritex
 			* https://www.looperman.com/loops/detail/70534/adventure-club-drop-loop-by-kritex-free-140bpm-dubstep-wobble-bass-loop
 			*/
-			// var themeMusic = new Audio('assets/theme-music.wav');
-			// themeMusic.addEventListener('ended', function() {
-			// 	this.currentTime = 0;
-			// 	this.play();
-			// }, false);
-			// themeMusic.volume = 0.6;
-			// themeMusic.play();
+			var themeMusic = new Audio('assets/theme-music.wav');
+			themeMusic.addEventListener('ended', function() {
+				this.currentTime = 0;
+				this.play();
+			}, false);
+			themeMusic.volume = 0.6;
+			themeMusic.play();
 			
 			// Create the player
 			player = new Engine.Spaceship(centerX - 150, centerY, 1);
