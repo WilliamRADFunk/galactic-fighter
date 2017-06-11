@@ -1124,6 +1124,7 @@ var GameWrapper = function() {
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'Earth is dead!');
 					scene.add(bannerText);
+					// Engine.sendScore('WRF');
 				}
 				if(playerRemainingLives > 0)
 				{
@@ -1133,6 +1134,7 @@ var GameWrapper = function() {
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'You Died!');
 					scene.add(bannerText);
+					// Engine.sendScore('WRF');
 				}
 			},
 			getCurrentWeapon: function()
@@ -1560,6 +1562,31 @@ var GameWrapper = function() {
 			}
 		}
 	}
+	/* Gets top-five scores (arcade-style) */
+	Engine.getScores = function()
+	{
+		var scores = [];
+		$.ajax({
+			type:'GET',
+			url:'http://www.williamrobertfunk.com/applications/galactic-fighter/actions/getScores.php',
+			dataType:'json',
+			async: true,
+			success:function(responseData)
+			{
+				console.log("Success");
+				console.log(responseData);
+				Engine.populateTopTen(responseData);
+			},
+			error:function(error)
+			{
+				console.log("Failed");
+				console.log(error);
+				console.log(error.responseText);
+				console.log(error.status);
+				console.log(error.statusText);
+			}
+		});
+	}
 	Engine.makeExplosion = function(destroyedEntity)
 	{
 		/*
@@ -1674,6 +1701,38 @@ var GameWrapper = function() {
 				j++;
 			}
 		}
+	}
+	/* Inserts the new score, identified by the user's initials (arcade-style) */
+	Engine.sendScore = function(initials)
+	{
+		if(initials === "") initials = "___";
+		else if(initials.length < 2) initials += "__";
+		else if(initials.length < 2) initials += "_";
+		var scorePackage =
+		{
+			initials: initials,
+			score: score.getPoints()
+		};
+
+		$.ajax({
+			type:'POST',
+			url:'http://www.williamrobertfunk.com/applications/galactic-fighter/actions/insert.php',
+			data: JSON.stringify(scorePackage),
+			contentType:'application/x-www-form-urlencoded; charset=utf-8',
+			dataType:'text',
+			async: true,
+			success:function()
+			{
+				console.log("Score entry created.");
+			},
+			error:function(error)
+			{
+				console.log(error);
+				console.log(error.responseText);
+				console.log(error.status);
+				console.log(error.statusText);
+			}
+		});
 	}
 	Engine.shouldEnemyFire = function()
 	{
