@@ -1669,7 +1669,7 @@ var GameWrapper = function() {
 	{
 		for(var i = 0; i < enemyShips.length; i++)
 		{
-			if(Math.random() >= 0.996)
+			if(Math.random() >= 0.998)
 			{
 				/*
 				* Audio Clip By DKnight556
@@ -1751,7 +1751,7 @@ var GameWrapper = function() {
 			{
 				waitUntilRevive--;
 			}
-			else if(player.isDestroyed && playerRemainingLives > 0 && waitUntilRevive <= 0)
+			else if(player.isDestroyed && playerRemainingLives > 0 && waitUntilRevive <= 0 && currentEarthImpacts < acceptableEarthImpacts)
 			{
 				player.regenerate();
 			}
