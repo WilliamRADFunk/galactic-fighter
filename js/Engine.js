@@ -139,10 +139,6 @@ var GameWrapper = function() {
 			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
 		],
 		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
@@ -186,7 +182,11 @@ var GameWrapper = function() {
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
+			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
 
 		],
 		[
@@ -1386,7 +1386,7 @@ var GameWrapper = function() {
 							var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + mod, randomConfig);
 							enemyShips.push(enemyShip);
 							scene.add(enemyShip);
-							enemyShip.applyMovementConfig(globalMovementConfig[i]);
+							enemyShip.applyMovementConfig(globalMovementConfig[Math.floor(num / 7)]);
 							configCount[randomConfig]++;
 							// Starts aliens out in the center and populates outward from there.
 							if(mod >= 0)
@@ -1427,7 +1427,7 @@ var GameWrapper = function() {
 			{
 				// Randomly selects between the two special movement types available to that enemy configuration.
 				var move = Math.floor(Math.random() * 2 + enemyShips[i].getConfig() + 5);
-				if(Math.random() >= 0.8 && waitUntilRevive > 0)
+				if(Math.random() >= 0.8 && waitUntilRevive <= 0)
 				{
 					enemyShips[i].applyMovementConfig(globalMovementConfig[move]);
 				}
