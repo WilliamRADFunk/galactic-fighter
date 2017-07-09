@@ -143,352 +143,51 @@ var GameWrapper = function() {
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-
-		],
-		[
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR'
-		],
-		[
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR'
-		],
-		[
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL','DL',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL','UL',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
 			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR','DR',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR',
 			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR','UR'
-		],
-		[
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D','DL','D',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U','UL','U',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D','DR','D',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U',
-			'UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U'
-		],
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R'
-		],
-		[
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL','L','DL',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR','U','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-			'R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR','R','UR',
-			'R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R','R',
-		],
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
+			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
+		]
 	];
 
 	// Receive fire command and perform its effect.
@@ -664,15 +363,18 @@ var GameWrapper = function() {
 	// Engine's Enemy Spaceship object.
 	Engine.EnemySpaceship = function(x, y, config)
 	{
+		var level = config;
 		var configurations = [
 			{
 				getPoints: function()
 				{
 					return 500;
 				},
-				getShip: function()
+				getShip: function(isEngineOn)
 				{
-					return document.getElementById('enemy-ship');
+					var idName = 'enemy-ship-1';
+					idName += isEngineOn ? 'b' : 'a';
+					return document.getElementById(idName);
 				},
 				getSpeed: function()
 				{
@@ -695,9 +397,12 @@ var GameWrapper = function() {
 				{
 					return 500;
 				},
-				getShip: function()
+				getShip: function(isEngineOn, level)
 				{
-					return document.getElementById('enemy-ship-blue');
+					var idName = 'enemy-ship-2';
+					idName += level ? level : '';
+					idName += isEngineOn ? 'b' : 'a';
+					return document.getElementById(idName);
 				},
 				getSpeed: function()
 				{
@@ -720,9 +425,12 @@ var GameWrapper = function() {
 				{
 					return 500;
 				},
-				getShip: function()
+				getShip: function(isEngineOn, level)
 				{
-					return document.getElementById('enemy-ship-purple');
+					var idName = 'enemy-ship-3';
+					idName += level ? level : '';
+					idName += isEngineOn ? 'b' : 'a';
+					return document.getElementById(idName);
 				},
 				getSpeed: function()
 				{
@@ -745,9 +453,12 @@ var GameWrapper = function() {
 				{
 					return 500;
 				},
-				getShip: function()
+				getShip: function(isEngineOn, level)
 				{
-					return document.getElementById('enemy-ship-orange');
+					var idName = 'enemy-ship-4';
+					idName += level ? level : '';
+					idName += isEngineOn ? 'b' : 'a';
+					return document.getElementById(idName);
 				},
 				getSpeed: function()
 				{
@@ -771,6 +482,10 @@ var GameWrapper = function() {
 			{
 				this.movementConfig = mConfig;
 			},
+			decreaseLevel: function()
+			{
+				level--;
+			},
 			getConfig: function()
 			{
 				return config;
@@ -778,6 +493,10 @@ var GameWrapper = function() {
 			getCurrentWeapon: function()
 			{
 				return configurations[config].getWeapon();
+			},
+			getLevel: function()
+			{
+				return level;
 			},
 			move: function(currX, currY)
 			{
@@ -792,9 +511,9 @@ var GameWrapper = function() {
 			},
 			render: function()
 			{
-				if(!this.isDestroyed)
+				if(!this.isDestroyed && undefined !== this.currentMovement)
 				{
-					var shipImg = configurations[config].getShip();
+					var shipImg = configurations[config].getShip(this.currentMovement % 5 === 0, level);
 					context.drawImage(shipImg, this.position.x, this.position.y, this.size, this.size);
 				}	
 			},
@@ -1113,13 +832,17 @@ var GameWrapper = function() {
 				y: y
 			},
 			size: configurations[config].getSize(),
-			destroy: function()
+			destroy: function(isFromCollision)
 			{
 				this.isDestroyed = true;
-				playerRemainingLives--;
-				scene.remove(playerLives[playerLives.length - 1]);
-				playerLives[playerLives.length - 1] = null;
-				playerLives.length = playerLives.length - 1;
+				// Only adjust player HUD lives if from actual player death (ie. not max asteroids missed)
+				if(isFromCollision)
+				{
+					playerRemainingLives--;
+					scene.remove(playerLives[playerLives.length - 1]);
+					playerLives[playerLives.length - 1] = null;
+					playerLives.length = playerLives.length - 1;
+				}
 				if(currentEarthImpacts >= acceptableEarthImpacts)
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'Earth is dead!');
@@ -1301,7 +1024,7 @@ var GameWrapper = function() {
 			) {
 				Engine.makeExplosion(player);
 
-				player.destroy();
+				player.destroy(true);
 
 				Engine.makeExplosion(spaceDebris[i]);
 
@@ -1425,16 +1148,7 @@ var GameWrapper = function() {
 			}
 			else if(enemyShips[i].currentMovement >= enemyShips[i].movementConfig.length)
 			{
-				// Randomly selects between the two special movement types available to that enemy configuration.
-				var move = Math.floor(Math.random() * 2 + enemyShips[i].getConfig() + 5);
-				if(Math.random() >= 0.8 && waitUntilRevive <= 0)
-				{
-					enemyShips[i].applyMovementConfig(globalMovementConfig[move]);
-				}
-				else
-				{
-					enemyShips[i].applyMovementConfig(globalMovementConfig[4]);
-				}
+				enemyShips[i].applyMovementConfig(globalMovementConfig[4]);
 				enemyShips[i].currentMovement = 0;
 			} else if(enemyShips[i].currentMovement && enemyShips[i].movementConfig[enemyShips[i].currentMovement])
 			{
@@ -1519,20 +1233,14 @@ var GameWrapper = function() {
 						score.addPoints(enemyShips[i].points);
 					}
 
-					var newConfig = enemyShips[i].getConfig() - 1;
-					if(newConfig < 0)
+					enemyShips[i].decreaseLevel();
+					var newLevel = enemyShips[i].getLevel();
+					if(newLevel < 0)
 					{
 						// Remove enemy ship
 						scene.remove(enemyShips[i]);
 						enemyShips.splice(i, 1);
 						j++;
-					}
-					else
-					{
-						// Reduce enemy ship
-						scene.remove(enemyShips[i]);
-						enemyShips[i] = new Engine.EnemySpaceship(enemyShips[i].position.x, enemyShips[i].position.y, newConfig);
-						scene.add(enemyShips[i]);
 					}
 					break;
 				}
@@ -1560,7 +1268,7 @@ var GameWrapper = function() {
 				enemyShips.splice(i, 1);
 				j++;
 				// Remove the player
-				player.destroy();
+				player.destroy(true);
 				break;
 			}
 		}
@@ -1684,7 +1392,7 @@ var GameWrapper = function() {
 				enemyProjectiles.splice(i, 1);
 				j++;
 				// Remove player
-				player.destroy();
+				player.destroy(true);
 				break;
 			}
 		}
@@ -1942,7 +1650,7 @@ var GameWrapper = function() {
 			// Makes sure player doesn't let more than acceptable number of asteroids passed.
 			if(!player.isDestroyed && currentEarthImpacts >= acceptableEarthImpacts)
 			{
-				player.destroy();
+				player.destroy(false);
 			}
 			
 			scene.render();

@@ -36,10 +36,26 @@ body
 * Images By Andrea Acosta Duarte:
 * http://www.n-somnium.com/home-sweet-home
 */
-#enemy-ship,
-#enemy-ship-blue,
-#enemy-ship-purple,
-#enemy-ship-orange
+#enemy-ship-1a,
+#enemy-ship-1b,
+#enemy-ship-2a,
+#enemy-ship-2b,
+#enemy-ship-21a,
+#enemy-ship-21b,
+#enemy-ship-3a,
+#enemy-ship-3b,
+#enemy-ship-31a,
+#enemy-ship-31b,
+#enemy-ship-32a,
+#enemy-ship-32b,
+#enemy-ship-4a,
+#enemy-ship-4b,
+#enemy-ship-41a,
+#enemy-ship-41b,
+#enemy-ship-42a,
+#enemy-ship-42b,
+#enemy-ship-43a,
+#enemy-ship-43b
 {
     height: 537;
     left: -10000px;
@@ -47,17 +63,32 @@ body
     width: 513;
     z-index: 3;
 }
-#enemy-ship-blue
+#enemy-ship-2a,
+#enemy-ship-2b,
+#enemy-ship-21a,
+#enemy-ship-21b
 {
     height: 509;
     width: 637;
 }
-#enemy-ship-purple
+#enemy-ship-3a,
+#enemy-ship-3b,
+#enemy-ship-31a,
+#enemy-ship-31b,
+#enemy-ship-32a,
+#enemy-ship-32b
 {
     height: 516;
     width: 510;
 }
-#enemy-ship-orange
+#enemy-ship-4a,
+#enemy-ship-4b,
+#enemy-ship-41a,
+#enemy-ship-41b,
+#enemy-ship-42a,
+#enemy-ship-42b,
+#enemy-ship-43a,
+#enemy-ship-43b
 {
     height: 513;
     width: 674;
