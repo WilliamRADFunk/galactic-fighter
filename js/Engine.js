@@ -94,102 +94,6 @@ var GameWrapper = function() {
 	var themeMusic;
 	var waitUntilRevive = 0;
 
-	var globalMovementConfig = [
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-
-		],
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-		],
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-		],
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-		],
-		[
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
-		]
-	];
-
 	// Receive fire command and perform its effect.
 	function handleKeys(e)
 	{
@@ -498,12 +402,62 @@ var GameWrapper = function() {
 			{
 				return level;
 			},
-			move: function(currX, currY)
+			move: function()
 			{
-				this.position.x = currX;
-				this.position.y = currY;
+				if(!isNaN(this.position.x) && !isNaN(this.position.y))
+				{
+					if(this.movementConfig === 0)
+					{
+						var rows = Math.floor(enemyShips.length / 7);
+						if(this.currentMovement < (80 + (40 * rows)))
+						{
+							this.position.x--;
+							return true;
+						}
+					}
+					else if(this.movementConfig === 1)
+					{
+						if(this.currentMovement < 320)
+						{
+							if(undefined === this.flip || false === this.flip)
+							{
+								this.flip = false;
+								this.position.y++;
+								if(this.currentMovement % 40 === 0) this.flip = true;
+							}
+							else
+							{
+								this.position.y--;
+								if(this.currentMovement % 40 === 0) this.flip = false;
+							}
+							return true;
+						}
+					}
+					else if(this.movementConfig === 2)
+					{
+						if(undefined === this.angle) this.angle = 0.0;
+						if(this.currentMovement < 340)
+						{
+							if(undefined === this.flip || false === this.flip)
+							{
+								this.flip = false;
+								this.position.x += Math.abs(Math.cos(this.angle) * 2);
+								this.position.y += Math.sin(this.angle) * 5;
+								if(this.currentMovement % 170 === 0) this.flip = true;
+							}
+							else
+							{
+								this.position.x -= Math.abs(Math.cos(this.angle) * 2);
+								this.position.y += Math.sin(this.angle) * 5;
+								if(this.currentMovement % 170 === 0) this.flip = false;
+							}
+							this.angle += 0.025;
+							return true;
+						}
+					}
+				}
 			},
-			movementConfig: globalMovementConfig[0],
+			movementConfig: 0,
 			points: configurations[config].getPoints(),
 			position: {
 				x: x,
@@ -513,7 +467,7 @@ var GameWrapper = function() {
 			{
 				if(!this.isDestroyed && undefined !== this.currentMovement)
 				{
-					var shipImg = configurations[config].getShip(this.currentMovement % 5 === 0, level);
+					var shipImg = configurations[config].getShip(this.currentMovement % 6 === 0, level);
 					context.drawImage(shipImg, this.position.x, this.position.y, this.size, this.size);
 				}	
 			},
@@ -1109,7 +1063,6 @@ var GameWrapper = function() {
 							var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + mod, randomConfig);
 							enemyShips.push(enemyShip);
 							scene.add(enemyShip);
-							enemyShip.applyMovementConfig(globalMovementConfig[Math.floor(num / 7)]);
 							configCount[randomConfig]++;
 							// Starts aliens out in the center and populates outward from there.
 							if(mod >= 0)
@@ -1140,72 +1093,20 @@ var GameWrapper = function() {
 	{
 		for(var i = 0; i < enemyShips.length; i++)
 		{
-			var x = 0;
-			var y = 0;
 			if(enemyShips[i].currentMovement === undefined)
 			{
 				enemyShips[i].currentMovement = 0;
 			}
-			else if(enemyShips[i].currentMovement >= enemyShips[i].movementConfig.length)
+			if(enemyShips[i].move(enemyShips[i].currentMovement))
 			{
-				enemyShips[i].applyMovementConfig(globalMovementConfig[4]);
-				enemyShips[i].currentMovement = 0;
-			} else if(enemyShips[i].currentMovement && enemyShips[i].movementConfig[enemyShips[i].currentMovement])
-			{
-				switch(enemyShips[i].movementConfig[enemyShips[i].currentMovement])
-				{
-					case 'L':
-					{
-						x--;
-						break;
-					}
-					case 'U':
-					{
-						y--;
-						break;
-					}
-					case 'UL':
-					{
-						x--;
-						y--;
-						break;
-					}
-					case 'R':
-					{
-						x++;
-						break;
-					}
-					case 'UR':
-					{
-						x++;
-						y--;
-						break;
-					}
-					case 'D':
-					{
-						y++;
-						break;
-					}
-					case 'DL':
-					{
-						x--;
-						y++;
-						break;
-					}
-					case 'DR':
-					{
-						x++;
-						y++;
-						break;
-					}
-					default:
-					{
-						break;
-					}
-				}
+				enemyShips[i].currentMovement += 1;
 			}
-			enemyShips[i].move(enemyShips[i].position.x + x, enemyShips[i].position.y + y);
-			enemyShips[i].currentMovement += 1;
+			else
+			{
+				// TODO: random roll for different movement type
+				enemyShips[i].applyMovementConfig(2);
+				enemyShips[i].currentMovement = 0;
+			}
 		}
 	}
 	Engine.enemyProjectileCollisionHandler = function()
