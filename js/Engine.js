@@ -409,7 +409,7 @@ var GameWrapper = function() {
 					if(this.movementConfig === 0)
 					{
 						var rows = Math.floor(enemyShips.length / 7);
-						if(this.currentMovement < (80 + (40 * rows)))
+						if(this.currentMovement < (81 + (40 * rows)))
 						{
 							this.position.x--;
 							return true;
@@ -417,7 +417,7 @@ var GameWrapper = function() {
 					}
 					else if(this.movementConfig === 1)
 					{
-						if(this.currentMovement < 320)
+						if(this.currentMovement < 321)
 						{
 							if(undefined === this.flip || false === this.flip)
 							{
@@ -436,7 +436,7 @@ var GameWrapper = function() {
 					else if(this.movementConfig === 2)
 					{
 						if(undefined === this.angle) this.angle = 0.0;
-						if(this.currentMovement < 330)
+						if(this.currentMovement < 331)
 						{
 							if(undefined === this.flip || false === this.flip)
 							{
