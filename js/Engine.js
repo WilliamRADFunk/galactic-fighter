@@ -436,22 +436,22 @@ var GameWrapper = function() {
 					else if(this.movementConfig === 2)
 					{
 						if(undefined === this.angle) this.angle = 0.0;
-						if(this.currentMovement < 340)
+						if(this.currentMovement < 330)
 						{
 							if(undefined === this.flip || false === this.flip)
 							{
 								this.flip = false;
-								this.position.x += Math.abs(Math.cos(this.angle) * 2);
-								this.position.y += Math.sin(this.angle) * 5;
-								if(this.currentMovement % 170 === 0) this.flip = true;
+								this.position.x -= Math.abs(Math.cos(this.angle) * 6);
+								this.position.y += Math.sin(this.angle) * 2;
+								if(this.currentMovement % 165 === 0) this.flip = true;
 							}
 							else
 							{
-								this.position.x -= Math.abs(Math.cos(this.angle) * 2);
-								this.position.y += Math.sin(this.angle) * 5;
-								if(this.currentMovement % 170 === 0) this.flip = false;
+								this.position.x += Math.abs(Math.cos(this.angle) * 6);
+								this.position.y += Math.sin(this.angle) * 2;
+								if(this.currentMovement % 165 === 0) this.flip = false;
 							}
-							this.angle += 0.025;
+							this.angle += 0.05;
 							return true;
 						}
 					}
@@ -1095,7 +1095,7 @@ var GameWrapper = function() {
 		{
 			if(enemyShips[i].currentMovement === undefined)
 			{
-				enemyShips[i].currentMovement = 0;
+				enemyShips[i].currentMovement = 1;
 			}
 			if(enemyShips[i].move(enemyShips[i].currentMovement))
 			{
@@ -1104,8 +1104,9 @@ var GameWrapper = function() {
 			else
 			{
 				// TODO: random roll for different movement type
-				enemyShips[i].applyMovementConfig(2);
-				enemyShips[i].currentMovement = 0;
+				if(Math.random() > 0.98) enemyShips[i].applyMovementConfig(2);
+				else enemyShips[i].applyMovementConfig(1);
+				enemyShips[i].currentMovement = 1;
 			}
 		}
 	}
