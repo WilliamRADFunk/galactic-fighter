@@ -92,103 +92,8 @@ var GameWrapper = function() {
 	var spaceDebris = [];
 	var stars = [];
 	var themeMusic;
+	var totalRows = 0;
 	var waitUntilRevive = 0;
-
-	var globalMovementConfig = [
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-
-		],
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-		],
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-		],
-		[
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L',
-			'L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L','L'
-		],
-		[
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D','D',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U',
-			'U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U','U'
-		]
-	];
 
 	// Receive fire command and perform its effect.
 	function handleKeys(e)
@@ -364,6 +269,13 @@ var GameWrapper = function() {
 	Engine.EnemySpaceship = function(x, y, config)
 	{
 		var level = config;
+		var moveSpan = 321;
+		var startingRow = (x - Engine.canvas.width) / 60;
+		var startPos =
+		{
+			x: x,
+			y: y
+		};
 		var configurations = [
 			{
 				getPoints: function()
@@ -482,6 +394,21 @@ var GameWrapper = function() {
 			{
 				this.movementConfig = mConfig;
 			},
+			checkRestart: function()
+			{
+				if(this.currentMovement >= moveSpan)
+				{
+					this.restartCurrentMovement();
+				}
+				// If ship went off screen, this determines if the timing
+				// is right to restart it at far right in original position.
+				if(this.currentMovement === moveSpan - (80 + (40 * totalRows)))
+				{
+					return true;
+				}
+				return false;
+			},
+			currentMovement: undefined,
 			decreaseLevel: function()
 			{
 				level--;
@@ -489,6 +416,10 @@ var GameWrapper = function() {
 			getConfig: function()
 			{
 				return config;
+			},
+			getCurrentMovement: function()
+			{
+				return this.currentMovement;
 			},
 			getCurrentWeapon: function()
 			{
@@ -498,12 +429,98 @@ var GameWrapper = function() {
 			{
 				return level;
 			},
-			move: function(currX, currY)
+			increaseCurrentMovement: function()
 			{
-				this.position.x = currX;
-				this.position.y = currY;
+				this.currentMovement += 1;
 			},
-			movementConfig: globalMovementConfig[0],
+			move: function()
+			{
+				if(!isNaN(this.position.x) && !isNaN(this.position.y))
+				{
+					if(this.movementConfig === 0)
+					{
+						if(this.currentMovement < (81 + (40 * totalRows)))
+						{
+							this.position.x--;
+							return true;
+						}
+					}
+					else if(this.movementConfig === 1)
+					{
+						if(this.currentMovement < moveSpan)
+						{
+							if(undefined === this.flip || false === this.flip)
+							{
+								this.flip = false;
+								this.position.y++;
+								if((this.currentMovement % ((moveSpan - 1) / 8)) === 0) this.flip = true;
+							}
+							else
+							{
+								this.position.y--;
+								if((this.currentMovement % ((moveSpan - 1) / 8)) === 0) this.flip = false;
+							}
+							return true;
+						}
+					}
+					else if(this.movementConfig === 2)
+					{
+						if(undefined === this.angle) this.angle = 0.0;
+						if(this.position.x + this.size > 0)
+						{
+							this.position.x -= Math.abs(Math.cos(this.angle) * 8);
+							this.position.y += Math.sin(this.angle) * 2;
+							this.angle += 0.05;
+							return true;
+						}
+					}
+					else if(this.movementConfig === 3)
+					{
+						if(undefined === this.angle) this.angle = 0.0;
+						if(this.position.x + this.size > 0)
+						{
+							this.position.x -= Math.abs(Math.cos(this.angle) * 4);
+							this.position.y += Math.sin(this.angle) * 4;
+							this.angle += 0.005;
+							return true;
+						}
+					}
+					else if(this.movementConfig === 4)
+					{
+						if(undefined === this.angle) this.angle = 0.0;
+						if(this.position.x + this.size > 0)
+						{
+							this.position.x -= Math.abs(Math.cos(this.angle) * 4);
+							this.position.y -= Math.sin(this.angle) * 4;
+							this.angle += 0.005;
+							return true;
+						}
+					}
+					else if(this.movementConfig === 5)
+					{
+						if(undefined === this.angle) this.angle = 0.0;
+						if(this.position.x + this.size > 0)
+						{
+							this.position.x -= Math.abs(Math.cos(this.angle) * 4);
+							this.position.y += Math.sin(this.angle) * 6;
+							this.angle += 0.005;
+							return true;
+						}
+					}
+					else if(this.movementConfig === 6)
+					{
+						if(undefined === this.angle) this.angle = 0.0;
+						if(this.position.x + this.size > 0)
+						{
+							this.position.x -= Math.abs(Math.cos(this.angle) * 4);
+							this.position.y -= Math.sin(this.angle) * 6;
+							this.angle += 0.5;
+							return true;
+						}
+					}
+				}
+			},
+			movementConfig: 0,
 			points: configurations[config].getPoints(),
 			position: {
 				x: x,
@@ -513,9 +530,19 @@ var GameWrapper = function() {
 			{
 				if(!this.isDestroyed && undefined !== this.currentMovement)
 				{
-					var shipImg = configurations[config].getShip(this.currentMovement % 5 === 0, level);
+					var shipImg = configurations[config].getShip(this.currentMovement % 6 === 0, level);
 					context.drawImage(shipImg, this.position.x, this.position.y, this.size, this.size);
 				}	
+			},
+			restartCurrentMovement: function()
+			{
+				this.currentMovement = 1;
+			},
+			restartPos: function()
+			{
+				this.position.x = startPos.x;
+				this.position.y = startPos.y;
+				this.flip = false;
 			},
 			size: 50,
 			speed: configurations[config].getSpeed()
@@ -1083,6 +1110,7 @@ var GameWrapper = function() {
 	}
 	Engine.createEnemies = function(num)
 	{
+		totalRows = Math.floor(num / 7) + 1;
 		var startingY = Engine.canvas.height / 2;
 		var configCap = [
 			Math.ceil(levelConfig[enemyLevel][0] * 0.01 * num),
@@ -1109,7 +1137,6 @@ var GameWrapper = function() {
 							var enemyShip = new Engine.EnemySpaceship(Engine.canvas.width + ((i * 50) + (i * 10)), startingY + mod, randomConfig);
 							enemyShips.push(enemyShip);
 							scene.add(enemyShip);
-							enemyShip.applyMovementConfig(globalMovementConfig[Math.floor(num / 7)]);
 							configCount[randomConfig]++;
 							// Starts aliens out in the center and populates outward from there.
 							if(mod >= 0)
@@ -1140,72 +1167,37 @@ var GameWrapper = function() {
 	{
 		for(var i = 0; i < enemyShips.length; i++)
 		{
-			var x = 0;
-			var y = 0;
-			if(enemyShips[i].currentMovement === undefined)
+			if(enemyShips[i].getCurrentMovement() === undefined)
 			{
-				enemyShips[i].currentMovement = 0;
+				enemyShips[i].restartCurrentMovement();
 			}
-			else if(enemyShips[i].currentMovement >= enemyShips[i].movementConfig.length)
+			if(enemyShips[i].move(enemyShips[i].getCurrentMovement()))
 			{
-				enemyShips[i].applyMovementConfig(globalMovementConfig[4]);
-				enemyShips[i].currentMovement = 0;
-			} else if(enemyShips[i].currentMovement && enemyShips[i].movementConfig[enemyShips[i].currentMovement])
+				enemyShips[i].increaseCurrentMovement();
+			}
+			else if(enemyShips[i].position.x + enemyShips[i].size <= 0)
 			{
-				switch(enemyShips[i].movementConfig[enemyShips[i].currentMovement])
+				// Ships is out of bounds. Now check if the timing is right
+				// to restart its position
+				if(enemyShips[i].checkRestart())
 				{
-					case 'L':
-					{
-						x--;
-						break;
-					}
-					case 'U':
-					{
-						y--;
-						break;
-					}
-					case 'UL':
-					{
-						x--;
-						y--;
-						break;
-					}
-					case 'R':
-					{
-						x++;
-						break;
-					}
-					case 'UR':
-					{
-						x++;
-						y--;
-						break;
-					}
-					case 'D':
-					{
-						y++;
-						break;
-					}
-					case 'DL':
-					{
-						x--;
-						y++;
-						break;
-					}
-					case 'DR':
-					{
-						x++;
-						y++;
-						break;
-					}
-					default:
-					{
-						break;
-					}
+					enemyShips[i].restartCurrentMovement();
+					enemyShips[i].angle = 0.0;
+					enemyShips[i].restartPos();
+					enemyShips[i].applyMovementConfig(0);
+				}
+				else
+				{
+					enemyShips[i].increaseCurrentMovement();
 				}
 			}
-			enemyShips[i].move(enemyShips[i].position.x + x, enemyShips[i].position.y + y);
-			enemyShips[i].currentMovement += 1;
+			else
+			{
+				var moveChoice = Math.floor(Math.random() * 6) + 1;
+				if(Math.random() > 0.90 && !player.isDestroyed) enemyShips[i].applyMovementConfig(moveChoice);
+				else enemyShips[i].applyMovementConfig(1);
+				enemyShips[i].restartCurrentMovement();
+			}
 		}
 	}
 	Engine.enemyProjectileCollisionHandler = function()
@@ -1217,7 +1209,16 @@ var GameWrapper = function() {
 				var projectile = {x: playerProjectiles[k].position.x, y: playerProjectiles[k].position.y, width: playerProjectiles[k].radius, height: playerProjectiles[k].radius};
 				var enemy = {x: enemyShips[i].position.x, y: enemyShips[i].position.y, width: enemyShips[i].size, height: enemyShips[i].size}
 
-				if (projectile.x < (enemy.x + enemy.width)
+				if(projectile.x > Engine.canvas.width - 10)
+				{
+					// Remove projectile
+					scene.remove(playerProjectiles[k]);
+					playerProjectiles.splice(k, 1);
+					k--;
+					continue;
+				}
+
+				if(projectile.x < (enemy.x + enemy.width)
 					&& (projectile.x + projectile.width) > enemy.x
 					&& projectile.y < (enemy.y + enemy.height)
 					&& (projectile.height + projectile.y) > enemy.y
@@ -1591,7 +1592,7 @@ var GameWrapper = function() {
 				asteroidLevel++;
 				asteroidDensity = asteroidLevel * 5;
 			}
-			if(!player.isDestroyed && enemyShips.length <= 0 && score.getPoints() >= enemyLevel * 1000)
+			if(!player.isDestroyed && enemyShips.length <= 0)
 			{
 				enemyLevel++;
 				bannerText = Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Level: ' + enemyLevel);
