@@ -10,13 +10,13 @@ if ($conn->connect_error)
     die("Connection failed: " . $conn->connect_error);
 }
 // Get top five scores
-$sql = "SELECT * FROM Top_Scores ORDER BY score DESC LIMIT 5";
+$sql = "SELECT * FROM Top_Scores ORDER BY scores DESC LIMIT 5";
 $result = $conn->query($sql);
 
 $scores = '{"scores":[';
 while ( $db_row = $result->fetch_array(MYSQLI_ASSOC) )
 {
-	$scores .= '{"initials":"' . $db_row['initials'] . '", "score":' . $db_row['score'] . '},';
+	$scores .= '{"initials":"' . $db_row['initials'] . '", "score":' . $db_row['scores'] . '},';
 }
 $scores = rtrim($scores, ",");
 $scores .= ']}';
