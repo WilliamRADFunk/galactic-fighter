@@ -1,6 +1,6 @@
 {
   "name": "galactic-fighter",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Galactic Fighter's dependencies",
   "dependencies": {
   }

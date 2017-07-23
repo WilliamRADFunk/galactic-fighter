@@ -19,7 +19,7 @@ if ($conn->connect_error)
 // If value received, send query to insert.
 if(is_string($initials) && is_numeric($score))
 {
-	$sql = "INSERT INTO Top_Scores (initials, score) VALUES ('" . $initials . "', '" . $score . "')";
+	$sql = "INSERT INTO Top_Scores (initials, scores) VALUES ('" . $initials . "', '" . $score . "')";
 
 	if($conn->query($sql) === TRUE)
 	{

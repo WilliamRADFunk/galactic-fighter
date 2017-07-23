@@ -15,6 +15,7 @@ var GameWrapper = function() {
 	var asteroidLevel = 0;
 	var asteroidSpeed = 2;
 	var bannerText = null;
+	var barrier = null;
 	var centerX;
 	var centerY;
 	var context;
@@ -89,6 +90,13 @@ var GameWrapper = function() {
 	var recharge = 0;
 	var scene;
 	var score;
+	var enterScoreText = null;
+	var enterScoreInitials = {
+		first: null,
+		second: null,
+		third: null
+	};
+	var showingScores = true;
 	var spaceDebris = [];
 	var stars = [];
 	var themeMusic;
@@ -127,12 +135,59 @@ var GameWrapper = function() {
 
 				recharge = currentWeapon.recharge;
 			}
+		} else if(player.isDestroyed
+			&& enterScoreText !== null
+			&& ((e.keyCode >= 65 && e.keyCode <= 122) || (e.which >= 65 && e.which <= 122)))
+		{
+			if(enterScoreInitials.first === null)
+			{
+				enterScoreInitials.first = e.keyCode ? String.fromCharCode(e.keyCode).toUpperCase() : String.fromCharCode(e.which).toUpperCase();
+				scene.remove(enterScoreText);
+				enterScoreText = null;
+				enterScoreText = new Engine.DisplayText(
+					Engine.canvas.width / 2,
+					Engine.canvas.height / 2 + 150,
+					'Enter Initials: ' + enterScoreInitials.first + ' _ _'
+				);
+				scene.add(enterScoreText);
+			}
+			else if(enterScoreInitials.second === null)
+			{
+				enterScoreInitials.second = e.keyCode ? String.fromCharCode(e.keyCode).toUpperCase() : String.fromCharCode(e.which).toUpperCase();
+				scene.remove(enterScoreText);
+				enterScoreText = null;
+				enterScoreText = new Engine.DisplayText(
+					Engine.canvas.width / 2,
+					Engine.canvas.height / 2 + 150,
+					'Enter Initials: ' + enterScoreInitials.first + ' ' + enterScoreInitials.second + ' _'
+				);
+				scene.add(enterScoreText);
+			}
+			else if(enterScoreInitials.third === null)
+			{
+				enterScoreInitials.third = e.keyCode ? String.fromCharCode(e.keyCode).toUpperCase() : String.fromCharCode(e.which).toUpperCase();
+				scene.remove(enterScoreText);
+				enterScoreText = null;
+				enterScoreText = new Engine.DisplayText(
+					Engine.canvas.width / 2,
+					Engine.canvas.height / 2 + 150,
+					'Enter Initials: ' + enterScoreInitials.first + ' ' + enterScoreInitials.second + ' ' + enterScoreInitials.third
+				);
+				scene.add(enterScoreText);
+				Engine.sendScore(enterScoreInitials.first + enterScoreInitials.second + enterScoreInitials.third);
+			}
 		}
 	}
 	// Mouse state is active (mov player)
 	function mouseDown(e)
 	{
 		mouseState = 1;
+		if(showingScores && bannerText)
+		{
+			showingScores = false;
+			scene.remove(bannerText);
+			bannerText = null;
+		}
 		getMouseCoordinates(e);
 	}
 	// Mouse state is inactive (stop moving player)
@@ -164,6 +219,22 @@ var GameWrapper = function() {
 	// Does some smoothing math to transition player toward mouse pointer.
 	function movePlayer()
 	{
+		if(mouseX > Engine.canvas.width - 175)
+		{
+			mouseX = Engine.canvas.width - 175;
+		} 
+		else if(mouseX < 0)
+		{
+			mouseX = 0;
+		}
+		if(mouseY > Engine.canvas.height - 50)
+		{
+			mouseY = Engine.canvas.height - 50;
+		} 
+		else if(mouseY < 10)
+		{
+			mouseY = 10;
+		}
 		var oldPlayerX = player.position.x;
 		var oldPlayerY = player.position.y;
 		var xDiff = mouseX - oldPlayerX;
@@ -262,6 +333,33 @@ var GameWrapper = function() {
 					configurations[config].getSize(),
 					configurations[config].getSize()
 				);	
+			}
+		};
+	};
+	// Engine's Line object.
+	Engine.Line = function(x1, y1, x2, y2, c, strokeC)
+	{
+		return {
+			colorR: c[0],
+			colorG: c[1],
+			colorB: c[2],
+			colorA: c[3],
+			strokeColorR: strokeC[0],
+			strokeColorG: strokeC[1],
+			strokeColorB: strokeC[2],
+			strokeColorA: strokeC[3],
+			render: function()
+			{
+				var col = "rgba(" + this.colorR + "," + this.colorG + "," + this.colorB + "," + this.colorA + ")";
+				var strCol = "rgba(" + this.strokeColorR + "," + this.strokeColorG + "," + this.strokeColorB + "," + this.strokeColorA + ")";
+				context.beginPath();
+				context.moveTo(x1, y1);
+				context.fillStyle = col;
+				context.fill();
+				context.lineWidth = 4;
+				context.lineTo(x2, y2);
+				context.strokeStyle = strCol;
+				context.stroke();
 			}
 		};
 	};
@@ -715,7 +813,7 @@ var GameWrapper = function() {
 			render: function()
 			{
 				context.fillStyle = '#FFFFFF';
-				context.font = '48px serif';
+				context.font = '48px courier';
 				context.textAlign = 'center';
 				context.fillText('Score: ' + points, this.position.x, this.position.y);
 			}
@@ -874,7 +972,8 @@ var GameWrapper = function() {
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'Earth is dead!');
 					scene.add(bannerText);
-					// Engine.sendScore('WRF');
+					enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
+					scene.add(enterScoreText);
 					themeMusic.pause();
 					/*
 					* Audio Clip By Mike Koenig
@@ -895,7 +994,8 @@ var GameWrapper = function() {
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'You Died!');
 					scene.add(bannerText);
-					// Engine.sendScore('WRF');
+					enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
+					scene.add(enterScoreText);
 					themeMusic.pause();
 					/*
 					* Audio Clip By Mike Koenig
@@ -1075,7 +1175,7 @@ var GameWrapper = function() {
 			bannerText.fade(0.01);
 		}
 		// Game Over scenario
-		else if(player.isDestroyed)
+		else if(player.isDestroyed || showingScores)
 		{
 			bannerText.fade(-0.02);
 			bannerText.isBlooming = true;
@@ -1102,7 +1202,7 @@ var GameWrapper = function() {
 			render: function()
 			{
 				context.fillStyle = 'rgba(' + this.colorR + ', ' + this.colorG + ', ' + this.colorB + ', ' + this.colorA + ')';
-				context.font = '12px serif';
+				context.font = '12px courier';
 				context.textAlign = 'center';
 				context.fillText(txt, this.position.x, this.position.y);
 			}
@@ -1329,17 +1429,11 @@ var GameWrapper = function() {
 			async: true,
 			success:function(responseData)
 			{
-				console.log("Success");
-				console.log(responseData);
-				Engine.populateTopTen(responseData);
+				Engine.populateTopFive(responseData);
 			},
 			error:function(error)
 			{
-				console.log("Failed");
 				console.log(error);
-				console.log(error.responseText);
-				console.log(error.status);
-				console.log(error.statusText);
 			}
 		});
 	}
@@ -1397,6 +1491,26 @@ var GameWrapper = function() {
 				break;
 			}
 		}
+	}
+	Engine.populateTopFive = function(res) {
+		showingScores = true;
+		var score1 = (res.scores[0]) ? res.scores[0].initials.toUpperCase().split('').join(' ') + ': ' + res.scores[0].score : '_ _ _: ' + '0';
+		var score2 = (res.scores[1]) ? res.scores[1].initials.toUpperCase().split('').join(' ') + ': ' + res.scores[1].score : '_ _ _: ' + '0';
+		var score3 = (res.scores[2]) ? res.scores[2].initials.toUpperCase().split('').join(' ') + ': ' + res.scores[2].score : '_ _ _: ' + '0';
+		var score4 = (res.scores[3]) ? res.scores[3].initials.toUpperCase().split('').join(' ') + ': ' + res.scores[3].score : '_ _ _: ' + '0';
+		var score5 = (res.scores[4]) ? res.scores[4].initials.toUpperCase().split('').join(' ') + ': ' + res.scores[4].score : '_ _ _: ' + '0';
+		bannerText = Engine.TriggerScoreText(
+			Engine.canvas.width / 2,
+			Engine.canvas.height / 2,
+			'Click/Tap to Start',
+			'Top Scores:',
+			score1,
+			score2,
+			score3,
+			score4,
+			score5 
+		);
+		scene.add(bannerText);
 	}
 	Engine.powerUpHandler = function()
 	{
@@ -1465,6 +1579,102 @@ var GameWrapper = function() {
 			}
 		}
 	}
+	Engine.restartGame = function()
+	{
+		start = null;
+		asteroidDensity = 5;
+		asteroidLevel = 0;
+		bannerText = null;
+		barrier = null;
+		currentEarthImpacts = 0;
+		earthImpacts = [];
+		enemyLevel = 0;
+		enemyProjectiles = [];
+		enemyShips = [];
+		engineParticles = [];
+		explosions = [];
+		player = null;
+		playerLives = [];
+		playerRemainingLives = 3;
+		playerProjectiles = [];
+		powerUp = null;
+		recharge = 0;
+		scene = null;
+		score = 0;
+		enterScoreText = null;
+		enterScoreInitials = {
+			first: null,
+			second: null,
+			third: null
+		};
+		showingScores = true;
+		spaceDebris = [];
+		stars = [];
+		totalRows = 0;
+		waitUntilRevive = 0;
+
+		// Create the player
+		player = new Engine.Spaceship(centerX - 250, centerY, 1);
+		scene = new Engine.Scene();
+		scene.add(player);
+
+		// Create Display
+		for(var i = 0, j = 0; i < acceptableEarthImpacts; i++, j++)
+		{
+			if(j === 5) j = 0;
+			var asteroidDisplayElem = new Engine.Asteroid((j * 20) + 20, (Math.floor(i / 5) + 1) * 25, 0);
+			earthImpacts.push(asteroidDisplayElem);
+			scene.add(asteroidDisplayElem);
+		}
+
+		for(var i = 0; i < playerRemainingLives; i++)
+		{
+			var playerDisplayElem = new Engine.Spaceship(Engine.canvas.width - 40 - (i * 25), (Math.floor(i / 5) + 1) * 30, 0);
+			playerLives.push(playerDisplayElem);
+			scene.add(playerDisplayElem);
+		}
+
+		// Create the stars that will give the illusion of movement.
+		for(var i = 0; i < 20; i++)
+		{
+			var star = new Engine.Orb(
+				Math.floor(Math.random() * Engine.canvas.height) + 50,
+				Math.floor(Math.random() * Engine.canvas.height),
+				-(Math.floor(Math.random() * 5) + 2),
+				1,
+				[255,255,255,0.3],
+				[255,255,255,0.3]
+			);
+			stars.push(star);
+			scene.add(star);
+		}
+		// Create the energy barrier
+		barrier = new Engine.Line(Engine.canvas.width - 124, 0, Engine.canvas.width - 124, Engine.canvas.height, [125, 249, 255, 0.4], [125, 249, 255, 0.4]);
+		scene.add(barrier);
+		// Create engine particles
+		for(var i = 0; i < 50; i++)
+		{
+			var engParticle = new Engine.Orb(
+					player.position.x - (i * 5),
+					player.position.y + (player.size / 2) - (8 * Math.random()),
+					-3,
+					1,
+					[232,185,18,Math.random()],
+					[232,185,18,Math.random()]
+				);
+
+			engineParticles.push(engParticle);
+			scene.add(engParticle);
+		}
+		// Create scoreboard
+		score = new Engine.Score(centerX, 50);
+		scene.add(score);
+
+		bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, '', '');
+
+		// Gets and displays top five scores.
+		Engine.getScores();
+	}
 	/* Inserts the new score, identified by the user's initials (arcade-style) */
 	Engine.sendScore = function(initials)
 	{
@@ -1486,14 +1696,18 @@ var GameWrapper = function() {
 			async: true,
 			success:function()
 			{
-				console.log("Score entry created.");
+				Engine.restartGame();
 			},
 			error:function(error)
 			{
 				console.log(error);
-				console.log(error.responseText);
-				console.log(error.status);
-				console.log(error.statusText);
+				enterScoreInitials.first = null;
+				enterScoreInitials.second = null;
+				enterScoreInitials.third = null;
+				scene.remove(bannerText);
+				bannerText = null;
+				enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
+				scene.add(bannerText);
 			}
 		});
 	}
@@ -1519,8 +1733,6 @@ var GameWrapper = function() {
 					currentWeapon.color,
 					currentWeapon.strokeColor
 				);
-				// Player spends points per shot of weapon.
-				score.addPoints(-currentWeapon.points * 10);
 				// Add projectile to the scene.
 				enemyProjectiles.push(bullet);
 				scene.add(bullet);
@@ -1540,6 +1752,38 @@ var GameWrapper = function() {
 				);
 			}
 		}
+	}
+	Engine.TriggerScoreText = function(x, y, txtInstruct, txtLabel, score2, score3, score4, score5, score6)
+	{
+		return {
+			colorR: 211,
+			colorG: 211,
+			colorB: 211,
+			colorA: 0.01,
+			fade: function(rate)
+			{
+				this.colorA = (this.colorA - rate < 0) ? 0 : this.colorA - rate;
+				this.strokeColorA = (this.strokeColorA - rate < 0) ? 0 : this.strokeColorA - rate;
+			},
+			position:
+			{
+				x: x,
+				y: y
+			},
+			render: function()
+			{
+				context.fillStyle = 'rgba(' + this.colorR + ', ' + this.colorG + ', ' + this.colorB + ', ' + this.colorA + ')';
+				context.font = '32px courier';
+				context.textAlign = 'center';
+				context.fillText(txtLabel, this.position.x, this.position.y - 150);
+				context.fillText(score2, this.position.x, this.position.y - 80);
+				context.fillText(score3, this.position.x, this.position.y - 40);
+				context.fillText(score4, this.position.x, this.position.y);
+				context.fillText(score5, this.position.x, this.position.y + 40);
+				context.fillText(score6, this.position.x, this.position.y + 80);
+				context.fillText(txtInstruct, this.position.x, this.position.y + 150);
+			}
+		};
 	}
 	Engine.TriggerText = function(x, y, txt1, txt2=null)
 	{
@@ -1561,7 +1805,7 @@ var GameWrapper = function() {
 			render: function()
 			{
 				context.fillStyle = 'rgba(' + this.colorR + ', ' + this.colorG + ', ' + this.colorB + ', ' + this.colorA + ')';
-				context.font = '72px serif';
+				context.font = '48px courier';
 				context.textAlign = 'center';
 				context.fillText(txt1, this.position.x, this.position.y);
 				if(null !== txt2)
@@ -1592,9 +1836,14 @@ var GameWrapper = function() {
 				asteroidLevel++;
 				asteroidDensity = asteroidLevel * 5;
 			}
-			if(!player.isDestroyed && enemyShips.length <= 0)
+			if(!player.isDestroyed && enemyShips.length <= 0 && !showingScores)
 			{
 				enemyLevel++;
+				if(bannerText !== null)
+				{
+					scene.remove(bannerText);
+					bannerText = null;
+				}
 				bannerText = Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Level: ' + enemyLevel);
 				scene.add(bannerText);
 				Engine.createEnemies(enemyLevel + 1);
@@ -1689,7 +1938,7 @@ var GameWrapper = function() {
 			themeMusic.play();
 			
 			// Create the player
-			player = new Engine.Spaceship(centerX - 150, centerY, 1);
+			player = new Engine.Spaceship(centerX - 250, centerY, 1);
 			scene = new Engine.Scene();
 			scene.add(player);
 
@@ -1701,9 +1950,6 @@ var GameWrapper = function() {
 				earthImpacts.push(asteroidDisplayElem);
 				scene.add(asteroidDisplayElem);
 			}
-
-			// var displayText = new Engine.DisplayText(25, 20, 'Remaining Collisions');
-			// scene.add(displayText);
 
 			for(var i = 0; i < playerRemainingLives; i++)
 			{
@@ -1726,6 +1972,9 @@ var GameWrapper = function() {
 				stars.push(star);
 				scene.add(star);
 			}
+			// Create the energy barrier
+			barrier = new Engine.Line(Engine.canvas.width - 124, 0, Engine.canvas.width - 124, Engine.canvas.height, [125, 249, 255, 0.4], [125, 249, 255, 0.4]);
+			scene.add(barrier);
 			// Create engine particles
 			for(var i = 0; i < 50; i++)
 			{
@@ -1749,6 +1998,11 @@ var GameWrapper = function() {
 			document.addEventListener("mousedown", mouseDown, false);
 			document.addEventListener("mouseup", mouseUp, false);
 			document.addEventListener("mousemove", mouseMove, false);
+
+			bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, '', '');
+
+			// Gets and displays top five scores.
+			Engine.getScores();
 
 			// Instigate the rendering loop.
 			window.requestAnimationFrame(Engine.update);
