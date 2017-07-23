@@ -1424,7 +1424,7 @@ var GameWrapper = function() {
 		var scores = [];
 		$.ajax({
 			type:'GET',
-			url:'http://www.williamrobertfunk.com/applications/galactic-fighter/actions/getScores.php',
+			url:'./actions/getScores.php',
 			dataType:'json',
 			async: true,
 			success:function(responseData)
@@ -1689,7 +1689,7 @@ var GameWrapper = function() {
 
 		$.ajax({
 			type:'POST',
-			url:'http://www.williamrobertfunk.com/applications/galactic-fighter/actions/insert.php',
+			url:'./actions/insert.php',
 			data: JSON.stringify(scorePackage),
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			dataType:'text',
