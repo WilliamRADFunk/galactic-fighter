@@ -80,7 +80,6 @@ var GameWrapper = function() {
 		[20, 20, 40, 20],
 		[20, 40, 20, 20]
 	];
-	var mouseState = 0;
 	var mouseX = centerX;
 	var mouseY = centerY;
 	var offlineText = null;
@@ -186,27 +185,20 @@ var GameWrapper = function() {
 			}
 		}
 	}
-	// Mouse state is active (mov player)
+	// Mouse clicked
 	function mouseDown(e)
 	{
-		mouseState = 1;
 		if(showingScores && bannerText)
 		{
 			showingScores = false;
 			scene.remove(bannerText);
 			bannerText = null;
 		}
-		getMouseCoordinates(e);
-	}
-	// Mouse state is inactive (stop moving player)
-	function mouseUp(e)
-	{
-		mouseState = 0;
 	}
 	// Mouse has moved, change the new pointer location.
 	function mouseMove(e)
 	{
-		if(mouseState === 1) getMouseCoordinates(e);
+		getMouseCoordinates(e);
 	}
 	// Calculate mouse position relative to canvas
 	function getMouseCoordinates(e)
@@ -1898,7 +1890,7 @@ var GameWrapper = function() {
 				Engine.createEnemies(enemyLevel + 1);
 			}
 			context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
-			if(mouseState === 1 && !player.isDestroyed && bannerText === null)
+			if(!player.isDestroyed && bannerText === null)
 			{
 				movePlayer();
 			}
@@ -2045,7 +2037,6 @@ var GameWrapper = function() {
 			// Create the keyboard event listener
 			document.addEventListener("keypress", handleKeys, false);
 			document.addEventListener("mousedown", mouseDown, false);
-			document.addEventListener("mouseup", mouseUp, false);
 			document.addEventListener("mousemove", mouseMove, false);
 
 			bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, '', '');
