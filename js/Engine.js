@@ -1,6 +1,6 @@
 /* 
-Galactic Fighter Engine v0.1.1
-Last Updated: 2017-June-04
+Galactic Fighter Engine v0.2.0
+Last Updated: 2017-July-29
 Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
 */
 
@@ -26,6 +26,7 @@ var GameWrapper = function() {
 	var enemyShips = [];
 	var engineParticles = [];
 	var explosions = [];
+	var isOffline = false;
 	var levelConfig = [
 		[], // Level 0
 		[100, 0, 0, 0],
@@ -79,9 +80,9 @@ var GameWrapper = function() {
 		[20, 20, 40, 20],
 		[20, 40, 20, 20]
 	];
-	var mouseState = 0;
 	var mouseX = centerX;
 	var mouseY = centerY;
+	var offlineText = null;
 	var player;
 	var playerLives = [];
 	var playerRemainingLives = 3;
@@ -139,7 +140,13 @@ var GameWrapper = function() {
 			&& enterScoreText !== null
 			&& ((e.keyCode >= 65 && e.keyCode <= 122) || (e.which >= 65 && e.which <= 122)))
 		{
-			if(enterScoreInitials.first === null)
+			if(isOffline)
+			{
+				scene.remove(enterScoreText);
+				enterScoreText = null;
+				Engine.sendScore(null);
+			}
+			else if(enterScoreInitials.first === null)
 			{
 				enterScoreInitials.first = e.keyCode ? String.fromCharCode(e.keyCode).toUpperCase() : String.fromCharCode(e.which).toUpperCase();
 				scene.remove(enterScoreText);
@@ -178,27 +185,20 @@ var GameWrapper = function() {
 			}
 		}
 	}
-	// Mouse state is active (mov player)
+	// Mouse clicked
 	function mouseDown(e)
 	{
-		mouseState = 1;
 		if(showingScores && bannerText)
 		{
 			showingScores = false;
 			scene.remove(bannerText);
 			bannerText = null;
 		}
-		getMouseCoordinates(e);
-	}
-	// Mouse state is inactive (stop moving player)
-	function mouseUp(e)
-	{
-		mouseState = 0;
 	}
 	// Mouse has moved, change the new pointer location.
 	function mouseMove(e)
 	{
-		if(mouseState === 1) getMouseCoordinates(e);
+		getMouseCoordinates(e);
 	}
 	// Calculate mouse position relative to canvas
 	function getMouseCoordinates(e)
@@ -972,8 +972,6 @@ var GameWrapper = function() {
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'Earth is dead!');
 					scene.add(bannerText);
-					enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
-					scene.add(enterScoreText);
 					themeMusic.pause();
 					/*
 					* Audio Clip By Mike Koenig
@@ -982,7 +980,16 @@ var GameWrapper = function() {
 					var gameOver = new Audio('assets/game-over.wav');
 					gameOver.volume = 0.4;
 					gameOver.play();
-
+					if(isOffline)
+					{
+						enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Type any letter to play again');
+						scene.add(enterScoreText);
+					}
+					else
+					{
+						enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
+						scene.add(enterScoreText);
+					}
 				}
 				else if(playerRemainingLives > 0)
 				{
@@ -994,8 +1001,6 @@ var GameWrapper = function() {
 				{
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'You Died!');
 					scene.add(bannerText);
-					enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
-					scene.add(enterScoreText);
 					themeMusic.pause();
 					/*
 					* Audio Clip By Mike Koenig
@@ -1004,6 +1009,16 @@ var GameWrapper = function() {
 					var gameOver = new Audio('assets/game-over.wav');
 					gameOver.volume = 0.4;
 					gameOver.play();
+					if(isOffline)
+					{
+						enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Type any letter to play again');
+						scene.add(enterScoreText);
+					}
+					else
+					{
+						enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
+						scene.add(enterScoreText);
+					}
 				}
 			},
 			getCurrentWeapon: function()
@@ -1424,16 +1439,31 @@ var GameWrapper = function() {
 		var scores = [];
 		$.ajax({
 			type:'GET',
-			url:'./actions/getScores.php',
+			url:'https://phood-buddy.com/actions/getScores.php',
 			dataType:'json',
+			crossDomain: true,
 			async: true,
 			success:function(responseData)
 			{
+				isOffline = false;
+				if(offlineText !== null)
+				{
+					scene.remove(offlineText);
+					offlineText = null;
+				}
 				Engine.populateTopFive(responseData);
 			},
 			error:function(error)
 			{
-				console.log(error);
+				console.log('Failed to get scores', error);
+				isOffline = true;
+				offlineText = new Engine.DisplayText(
+					Engine.canvas.width - 60,
+					Engine.canvas.height - 10,
+					'Offline Mode'
+				);
+				scene.add(offlineText);
+				showingScores = false;
 			}
 		});
 	}
@@ -1678,7 +1708,12 @@ var GameWrapper = function() {
 	/* Inserts the new score, identified by the user's initials (arcade-style) */
 	Engine.sendScore = function(initials)
 	{
-		if(initials === "") initials = "___";
+		if(isOffline)
+		{
+			Engine.restartGame();
+			return;
+		}
+		else if(initials === "") initials = "___";
 		else if(initials.length < 2) initials += "__";
 		else if(initials.length < 2) initials += "_";
 		var scorePackage =
@@ -1689,10 +1724,11 @@ var GameWrapper = function() {
 
 		$.ajax({
 			type:'POST',
-			url:'./actions/insert.php',
+			url:'https://phood-buddy.com/actions/insert.php',
 			data: JSON.stringify(scorePackage),
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			dataType:'text',
+			crossDomain: true,
 			async: true,
 			success:function()
 			{
@@ -1706,8 +1742,13 @@ var GameWrapper = function() {
 				enterScoreInitials.third = null;
 				scene.remove(bannerText);
 				bannerText = null;
-				enterScoreText = new Engine.DisplayText(Engine.canvas.width / 2, Engine.canvas.height / 2 + 150, 'Enter Initials: _ _ _');
-				scene.add(bannerText);
+				isOffline = true;
+				offlineText = new Engine.DisplayText(
+					Engine.canvas.width - 60,
+					Engine.canvas.height - 10,
+					'Offline Mode'
+				);
+				scene.add(offlineText);
 			}
 		});
 	}
@@ -1849,7 +1890,7 @@ var GameWrapper = function() {
 				Engine.createEnemies(enemyLevel + 1);
 			}
 			context.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
-			if(mouseState === 1 && !player.isDestroyed && bannerText === null)
+			if(!player.isDestroyed && bannerText === null)
 			{
 				movePlayer();
 			}
@@ -1996,7 +2037,6 @@ var GameWrapper = function() {
 			// Create the keyboard event listener
 			document.addEventListener("keypress", handleKeys, false);
 			document.addEventListener("mousedown", mouseDown, false);
-			document.addEventListener("mouseup", mouseUp, false);
 			document.addEventListener("mousemove", mouseMove, false);
 
 			bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, '', '');
