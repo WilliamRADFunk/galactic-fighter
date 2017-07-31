@@ -1,6 +1,6 @@
 /* 
-Galactic Fighter Engine v0.2.0
-Last Updated: 2017-July-29
+Galactic Fighter Engine v0.2.1
+Last Updated: 2017-July-30
 Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
 */
 
@@ -1439,7 +1439,7 @@ var GameWrapper = function() {
 		var scores = [];
 		$.ajax({
 			type:'GET',
-			url:'https://phood-buddy.com/actions/getScores.php',
+			url:'https://tenaciousteal.com/games/galactic-fighter/actions/getScores.php',
 			dataType:'json',
 			crossDomain: true,
 			async: true,
@@ -1724,7 +1724,7 @@ var GameWrapper = function() {
 
 		$.ajax({
 			type:'POST',
-			url:'https://phood-buddy.com/actions/insert.php',
+			url:'https://tenaciousteal.com/games/galactic-fighter/actions/insert.php',
 			data: JSON.stringify(scorePackage),
 			contentType:'application/x-www-form-urlencoded; charset=utf-8',
 			dataType:'text',
