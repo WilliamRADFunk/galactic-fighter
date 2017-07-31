@@ -1,7 +1,7 @@
 <?php
 header("content-type:application/json");
 header("Access-Control-Allow-Origin: *");
-include_once "config.php";
+include_once "config2.php";
 
 // Create connection
 $conn = new mysqli($hostname, $username, $password, $dbname);
