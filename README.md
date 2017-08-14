@@ -1,9 +1,9 @@
 # Galactic Fighter
-(In-Progress) A game built in HTML5/Canvas...just for fun
+(Complete) A game built in HTML5/Canvas...just for fun
 <br/>
-## Instructions (for now):
+## Instructions:
 
-### Left mouse button has player's ship chase mouse pointer.
+### Player's ship chases mouse pointer.
 
 ### Space bar activates primary weapon. Note: _*Each shot costs points*_.
 
@@ -53,25 +53,25 @@
 <ul>
 	<li>Each asteroid earns a hundred points when destroyed.</li>
 	<li>Each asteroid that gets passed player costs a hundred points.</li>
-	<li>Appearance of asteroids increases as player's score increases.</li>
+	<li>Appearance of asteroids increases as level increases.</li>
 </ul>
 
 ### Enemy Ships:
 
 <ul>
-	<li>Each enemy ship earns anywhere from 500 to 2000 points when destroyed, depending on difficulty.</li>
+	<li>Each enemy ship earns anywhere from 500 points when hit.</li>
 	<li>Unlike asteroids, enemy ships can and will fire back.</li>
 	<li>Enemy ships have a variety of move patterns depending on type.</li>
-	<li>Like the player's ship, enemy ships have a variety of ship and weapon configuration based on color.</li>
+	<li>Enemy ships have a variety of ship and weapon configurations.</li>
 </ul>
 
 ### End Game:
 
-When player is defeated, they're name is taken and posted along with their score on the leaderboard. The aliens will not stop until Earth is destroyed. They have an endless supply of vessels and will never tire. However, with every wave destroyed you give humanity a little longer to prepare for the inevitable invasion. 
+When player is defeated, they're initials are taken and posted along with their score on the leaderboard. The aliens will not stop until Earth is destroyed. They have an endless supply of vessels and will never tire. However, with every wave destroyed you give humanity a little longer to prepare for the inevitable invasion. 
 
 ## Purpose:
 
-A space platform shooter not unlike many of the old cabinet arcade games. End goal is to complete a self-contained browser game, then wrap it in a webview to make available through various storefronts (ie. Android playstore, iPhone, and maybe console stores...baby steps).
+A space platform shooter not unlike many of the old cabinet arcade games. End goal is to complete a self-contained browser game, then publish on one of the free promotion platforms (ie. itch.io) to gain experience with analytics.
 <br/>
 
 ## Tools:
@@ -80,7 +80,7 @@ A space platform shooter not unlike many of the old cabinet arcade games. End go
 
 ### Back-End: PHP only for storing player scores in a MySQL database.
 
-### Procedural generation of levels: Not sure yet.
+### Procedural generation of levels: Center out pattern (simple).
 
 ### Version Control: Git, Git Flow, Github
 
