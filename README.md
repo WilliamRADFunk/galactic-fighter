@@ -87,3 +87,5 @@ A space platform shooter not unlike many of the old cabinet arcade games. End go
 ### IDE: Sublime Text 3
 
 ### Artwork: Combination of freely available assets through <a href="https://openclipart.org" target="_blank">https://openclipart.org</a> and custom creations by <a href="http://www.n-somnium.com/home-sweet-home/" target="_blank">Andrea Acosta Duarte</a>.
+
+### Music & sound FX: Wyatt Walker
