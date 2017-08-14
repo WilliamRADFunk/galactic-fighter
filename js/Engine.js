@@ -1,6 +1,6 @@
 /* 
-Galactic Fighter Engine v0.2.1
-Last Updated: 2017-July-30
+Galactic Fighter Engine v0.2.2
+Last Updated: 2017-August-13
 Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
 */
 
@@ -100,6 +100,7 @@ var GameWrapper = function() {
 	var showingScores = true;
 	var spaceDebris = [];
 	var stars = [];
+	var gameOver;
 	var themeMusic;
 	var totalRows = 0;
 	var waitUntilRevive = 0;
@@ -113,8 +114,7 @@ var GameWrapper = function() {
 			if(recharge <= 0 && bannerText === null)
 			{
 				/*
-				* Audio Clip By DKnight556
-				* http://soundbible.com/1949-Pew-Pew.html
+				* Audio Clip By Wyatt Walker
 				*/
 				var pew = new Audio('assets/pew.wav');
 				pew.volume = 0.4;
@@ -973,12 +973,8 @@ var GameWrapper = function() {
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'Earth is dead!');
 					scene.add(bannerText);
 					themeMusic.pause();
-					/*
-					* Audio Clip By Mike Koenig
-					* http://soundbible.com/1885-Martian-Death-Ray.html
-					*/
-					var gameOver = new Audio('assets/game-over.wav');
-					gameOver.volume = 0.4;
+					
+					gameOver.volume = 0.5;
 					gameOver.play();
 					if(isOffline)
 					{
@@ -1002,12 +998,8 @@ var GameWrapper = function() {
 					bannerText = new Engine.TriggerText(Engine.canvas.width / 2, Engine.canvas.height / 2, 'Game Over', 'You Died!');
 					scene.add(bannerText);
 					themeMusic.pause();
-					/*
-					* Audio Clip By Mike Koenig
-					* http://soundbible.com/1885-Martian-Death-Ray.html
-					*/
-					var gameOver = new Audio('assets/game-over.wav');
-					gameOver.volume = 0.4;
+
+					gameOver.volume = 0.5;
 					gameOver.play();
 					if(isOffline)
 					{
@@ -1095,8 +1087,7 @@ var GameWrapper = function() {
 					earthImpacts[earthImpacts.length - 1] = null;
 					earthImpacts.length = earthImpacts.length - 1;
 					/*
-					* Audio Clip By Mike Koenig
-					* http://soundbible.com/287-Industrial-Alarm.html
+					* Audio Clip By Wyatt Walker
 					*/
 					var missedAsteroid = new Audio('assets/missed-asteroid.wav');
 					missedAsteroid.volume = 0.4;
@@ -1274,7 +1265,7 @@ var GameWrapper = function() {
 		*/
 		var aliensArrive = new Audio('assets/aliens-arrive.wav');
 		aliensArrive.currentTime = 4;
-		aliensArrive.volume = 0.3;
+		aliensArrive.volume = 0.1;
 		aliensArrive.currentTime = 4;
 		aliensArrive.play();
 	}
@@ -1470,8 +1461,7 @@ var GameWrapper = function() {
 	Engine.makeExplosion = function(destroyedEntity)
 	{
 		/*
-		* Audio Clip By Mike Koenig
-		* http://soundbible.com/1234-Bomb.html
+		* Audio Clip By Wyatt Walker
 		*/
 		var boom = new Audio('assets/explosion.wav');
 		boom.volume = 0.4;
@@ -1573,8 +1563,7 @@ var GameWrapper = function() {
 				scene.add(player);
 				powerUp = null;
 				/*
-				* Audio Clip By Brandino480
-				* http://soundbible.com/1858-Metroid-Door.html
+				* Audio Clip By Wyatt Walker
 				*/
 				var powerupSound = new Audio('assets/power-up.wav');
 				powerupSound.volume = 0.7;
@@ -1704,6 +1693,8 @@ var GameWrapper = function() {
 
 		// Gets and displays top five scores.
 		Engine.getScores();
+		gameOver.pause();
+		themeMusic.play();
 	}
 	/* Inserts the new score, identified by the user's initials (arcade-style) */
 	Engine.sendScore = function(initials)
@@ -1759,8 +1750,7 @@ var GameWrapper = function() {
 			if(Math.random() >= 0.998)
 			{
 				/*
-				* Audio Clip By DKnight556
-				* http://soundbible.com/1949-Pew-Pew.html
+				* Audio Clip By Wyatt Walker
 				*/
 				var pew = new Audio('assets/pew.wav');
 				pew.volume = 0.4;
@@ -1967,15 +1957,14 @@ var GameWrapper = function() {
 			centerY = Engine.canvas.height/2;
 			context = Engine.canvas.getContext('2d');
 			/*
-			* Audio Clip By Kritex
-			* https://www.looperman.com/loops/detail/70534/adventure-club-drop-loop-by-kritex-free-140bpm-dubstep-wobble-bass-loop
+			* Audio Clip By Wyatt Walker
 			*/
 			themeMusic = new Audio('assets/theme-music.wav');
 			themeMusic.addEventListener('ended', function() {
 				this.currentTime = 0;
 				this.play();
 			}, false);
-			themeMusic.volume = 0.1;
+			themeMusic.volume = 0.6;
 			themeMusic.play();
 			
 			// Create the player
@@ -2043,6 +2032,12 @@ var GameWrapper = function() {
 
 			// Gets and displays top five scores.
 			Engine.getScores();
+
+			// Load sound effect for later use.
+			/*
+			* Audio Clip By Wyatt Walker
+			*/
+			gameOver = new Audio('assets/game-over.wav');
 
 			// Instigate the rendering loop.
 			window.requestAnimationFrame(Engine.update);

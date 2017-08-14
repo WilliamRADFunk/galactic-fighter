@@ -3,6 +3,12 @@ header("content-type:application/json");
 header("Access-Control-Allow-Origin: *");
 include_once "config2.php";
 
+/* 
+Galactic Fighter Engine v0.2.2
+Last Updated: 2017-August-13
+Author: William R.A.D. Funk - http://WilliamRobertFunk.com 
+*/
+
 // Create connection
 $conn = new mysqli($hostname, $username, $password, $dbname);
 // Check connection
