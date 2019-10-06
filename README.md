@@ -1,5 +1,5 @@
 # Galactic Fighter
-(Complete) A game built in HTML5/Canvas...just for fun
+A game built in HTML5/Canvas...just for fun
 <br/>
 ## Instructions:
 
